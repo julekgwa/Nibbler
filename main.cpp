@@ -126,5 +126,6 @@ int main() {
     obj.createnode(0,0,0,'@');
     obj.setMax(width, height);
     obj.display(win);
+    endwin();
     return 0;
 }
