@@ -54,24 +54,21 @@ void List::display(WINDOW *win) {
 //        if (tmp->data == 5) {
 //            createnode(0);
 //        }
-        if (tmp->next) {
-            tmp->next->yLoc = tmp->yLoc;
-            tmp->next->xLoc = tmp->xLoc - 1;
-        }
+        wclear(win);
+        wborder(win, '|', '|', '-', '-', '+', '+', '+', '+');
+        while (tmp) {
+            if (tmp->next) {
+                tmp->next->yLoc = tmp->yLoc;
+                tmp->next->xLoc = tmp->xLoc - 1;
+            }
 
-        mvwaddch(win, tmp->yLoc, tmp->xLoc, tmp->c);
-        wrefresh(win);
-        tmp = tmp->next;
+            mvwaddch(win, tmp->yLoc, tmp->xLoc, tmp->c);
+            wrefresh(win);
+            tmp = tmp->next;
+        }
         if (tmp == NULL) {
             tmp = head;
             tmp->xLoc += 4;
-            mvwaddch(win, tmp->yLoc, tmp->xLoc - 1, ' ');
-            mvwaddch(win, tmp->yLoc, tmp->xLoc - 2, ' ');
-            mvwaddch(win, tmp->yLoc, tmp->xLoc - 3, ' ');
-            mvwaddch(win, tmp->yLoc, tmp->xLoc - 4, ' ');
-            mvwaddch(win, tmp->yLoc, tmp->xLoc - 5, ' ');
-            mvwaddch(win, tmp->yLoc, tmp->xLoc - 6, ' ');
-            mvwaddch(win, tmp->yLoc, tmp->xLoc - 7, ' ');
         }
     }
 }
