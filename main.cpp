@@ -4,6 +4,9 @@
 
 #include <iostream>
 #include <ncurses.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 using namespace std;
 typedef struct node {
@@ -16,17 +19,26 @@ typedef struct node {
 class List {
 private:
     node *head, *tail;
+    int     maxX;
+    int     maxY;
 public:
     List();
 
     void createnode(int value, int, int, char);
 
     void display(WINDOW *);
+    void setMax(int x, int y);
 };
 
 List::List() {
     this->head = NULL;
     this->tail = NULL;
+}
+
+void    List::setMax(int x, int y)
+{
+    this->maxX = x;
+    this->maxY = y;
 }
 
 void List::createnode(int value, int xLoc, int yLoc, char c) {
@@ -66,11 +78,21 @@ void List::display(WINDOW *win) {
             wrefresh(win);
             tmp = tmp->next;
         }
+
+        if ((head->xLoc >= this->maxX || head->yLoc >= this->maxY) || (head->yLoc == 0 || head->xLoc == 0))
+        {
+            mvwprintw(win, 10 , 10 , "it works cause Khutz did it...", head->yLoc,maxY, head->xLoc,maxX);
+            wrefresh(win);
+                        usleep(1e+9 / 100);
+            break ;
+        }
         if (tmp == NULL) {
             tmp = head;
             tmp->xLoc += 4;
         }
+        //usleep()
     }
+    endwin();
 }
 
 
@@ -92,17 +114,17 @@ int main() {
     startx = (width - (width - 2)) / 2;
     height -= 2;
     width -= 2;
-    halfdelay(1);
+    halfdelay(7);
     WINDOW *win = newwin(height, width, starty, startx);
     refresh();
     box(win, 0, 0);
     wborder(win, '|', '|', '-', '-', '+', '+', '+', '+');
     wrefresh(win);
-    obj.createnode(12, width / 2,  height / 2, '@');
+    obj.createnode(12, width / 2,  height / 2, 'C');
     obj.createnode(0,0,0,'@');
     obj.createnode(0,0,0,'@');
     obj.createnode(0,0,0,'@');
+    obj.setMax(width, height);
     obj.display(win);
-    int g = getch();
     return 0;
 }
