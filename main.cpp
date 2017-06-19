@@ -49,18 +49,30 @@ void List::createnode(int value, int xLoc, int yLoc, char c) {
 void List::display(WINDOW *win) {
     node *tmp = new node;
     tmp = head;
-    while (tmp != NULL) {
+    while (getch() != 'x') {
 //        cout << tmp->data << "\t";
 //        if (tmp->data == 5) {
 //            createnode(0);
 //        }
         if (tmp->next) {
-            tmp->next->yLoc = tmp->yLoc - 1;
-            tmp->next->xLoc = tmp->xLoc;
+            tmp->next->yLoc = tmp->yLoc;
+            tmp->next->xLoc = tmp->xLoc - 1;
         }
+
         mvwaddch(win, tmp->yLoc, tmp->xLoc, tmp->c);
         wrefresh(win);
         tmp = tmp->next;
+        if (tmp == NULL) {
+            tmp = head;
+            tmp->xLoc += 4;
+            mvwaddch(win, tmp->yLoc, tmp->xLoc - 1, ' ');
+            mvwaddch(win, tmp->yLoc, tmp->xLoc - 2, ' ');
+            mvwaddch(win, tmp->yLoc, tmp->xLoc - 3, ' ');
+            mvwaddch(win, tmp->yLoc, tmp->xLoc - 4, ' ');
+            mvwaddch(win, tmp->yLoc, tmp->xLoc - 5, ' ');
+            mvwaddch(win, tmp->yLoc, tmp->xLoc - 6, ' ');
+            mvwaddch(win, tmp->yLoc, tmp->xLoc - 7, ' ');
+        }
     }
 }
 
@@ -83,12 +95,13 @@ int main() {
     startx = (width - (width - 2)) / 2;
     height -= 2;
     width -= 2;
+    halfdelay(1);
     WINDOW *win = newwin(height, width, starty, startx);
     refresh();
     box(win, 0, 0);
     wborder(win, '|', '|', '-', '-', '+', '+', '+', '+');
     wrefresh(win);
-    obj.createnode(12, width / 2,  height / 2, 'c');
+    obj.createnode(12, width / 2,  height / 2, '@');
     obj.createnode(0,0,0,'@');
     obj.createnode(0,0,0,'@');
     obj.createnode(0,0,0,'@');
