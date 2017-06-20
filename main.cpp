@@ -20,12 +20,12 @@ typedef struct node
 
 class List
 {
-  private:
+private:
     node *head, *tail;
     int maxX;
     int maxY;
 
-  public:
+public:
     List();
 
     void createnode(int value, int, int, char);
@@ -104,23 +104,23 @@ bool List::collide2(WINDOW *win, int x, int y)
     //check if the head of the snake is at the same position as the current body part being rendered;
     if ((head->xLoc == x && head->yLoc == y))
     {
-        mvwprintw(win, 10, 10, "eat self");
-        //reprint  the entire snake on collision
-        while (tmp)
-        {
-            if (tmp->next)
-            {
-                tmp->next->yLoc = tmp->yLoc;
-                tmp->next->xLoc = tmp->xLoc - 1;
-            }
-            mvwaddch(win, tmp->yLoc, tmp->xLoc, tmp->c);
-            wrefresh(win);
-            tmp = tmp->next;
-        }
-        wrefresh(win);
-        //slow down the game to allow for viewing of the message.
-        usleep(1e+9 / 100);
-        return (true);
+//        mvwprintw(win, 10, 10, "eat self");
+//        //reprint  the entire snake on collision
+//        while (tmp)
+//        {
+//            if (tmp->next)
+//            {
+//                tmp->next->yLoc = tmp->yLoc;
+//                tmp->next->xLoc = tmp->xLoc - 1;
+//            }
+//            mvwaddch(win, tmp->yLoc, tmp->xLoc, tmp->c);
+//            wrefresh(win);
+//            tmp = tmp->next;
+//        }
+//        wrefresh(win);
+//        //slow down the game to allow for viewing of the message.
+//        usleep(1e+9 / 100);
+//        return (true);
     }
     return (false);
 }
@@ -152,11 +152,12 @@ bool List::collide(WINDOW *win)
 void List::display(WINDOW *win)
 {
     node *tmp = head;
+    char c = '\0';
     bool up = false;
     bool down = false;
     bool right = true;
     bool left = false;
-    while (getch() != 'x')
+    while (1)
     {
         wclear(win);
         wborder(win, '|', '|', '-', '-', '+', '+', '+', '+');
@@ -185,39 +186,43 @@ void List::display(WINDOW *win)
                     tmp->next->xLoc = tmp->xLoc + 1;
                 }
             }
-            if (tmp != head)
-            {
-                if (collide2(win, tmp->xLoc, tmp->yLoc))
-                {
-                    break;
-                }
-            }
+//            if (tmp != head)
+//            {
+//
+//            }
             mvwaddch(win, tmp->yLoc, tmp->xLoc, tmp->c);
             wrefresh(win);
             tmp = tmp->next;
         }
-        if (getch() == 'w')
+        if (collide2(win, head->xLoc, head->yLoc))
+        {
+            break;
+        }
+        c = getchar();
+        if (c == 'x')
+            break ;
+        if (c == 'w' && !down)
         {
             up = true;
             left = false;
             right = false;
             down = false;
         }
-        else if (getch() == 'd')
+        else if (c == 'd' && !left)
         {
             up = false;
             left = false;
             right = true;
             down = false;
         }
-        else if (getch() == 'a')
+        else if (c == 'a' && !right)
         {
             up = false;
             left = true;
             right = false;
             down = false;
         }
-        else if (getch() == 's')
+        else if (c == 's' && !up)
         {
             up = false;
             left = false;
@@ -228,9 +233,15 @@ void List::display(WINDOW *win)
         {
             tmp = head;
             if (right)
+            {
+                tmp->oldX = tmp->xLoc;
                 tmp->xLoc += 1;
+            }
             else if (left)
+            {
+                tmp->oldX = tmp->xLoc;
                 tmp->xLoc -= 1;
+            }
             else if (up)
             {
                 if (tmp->xLoc != head->xLoc)
