@@ -78,6 +78,8 @@ void Snake::generateFood() {
 // see this answer on stackoverflow https://stackoverflow.com/questions/27906211/making-snake-game-in-cpp-movement-of-snake
 void Snake::moveSnake() {
     Piece snake = _snakes.getPiece(1);
+    char brand[4] = {'C', 'T', 'W', '\0'};
+    int counter = 0;
     Piece tail;
     int x = snake.xLoc, y = snake.yLoc;
     char character = snake.character;
@@ -104,6 +106,9 @@ void Snake::moveSnake() {
         snake = _snakes.getPiece(i);
         if (i > 1)
             character = '#';
+        if (_snakes.length() - i >= 0 && _snakes.length() - i <= 3 && counter < 3) {
+            character = brand[counter++];
+        }
         mvaddch(snake.yLoc, snake.xLoc, character);
         refresh();
     }
