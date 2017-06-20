@@ -19,12 +19,12 @@ typedef struct node
 
 class List
 {
-  private:
+private:
     node *head, *tail;
     int maxX;
     int maxY;
 
-  public:
+public:
     List();
 
     void createnode(int value, int, int, char);
@@ -154,6 +154,10 @@ void List::display(WINDOW *win)
 {
     node *tmp = new node;
     tmp = head;
+    bool up = false;
+    bool down = false;
+    bool right = true;
+    bool left = false;
     while (getch() != 'x')
     {
         wclear(win);
@@ -162,8 +166,26 @@ void List::display(WINDOW *win)
         {
             if (tmp->next)
             {
-                tmp->next->yLoc = tmp->yLoc;
-                tmp->next->xLoc = tmp->xLoc - 1;
+                if (right)
+                {
+                    tmp->next->yLoc = tmp->yLoc;
+                    tmp->next->xLoc = tmp->xLoc - 1;
+                }
+                else if (up)
+                {
+                    tmp->next->xLoc = tmp->xLoc;
+                    tmp->next->yLoc = tmp->yLoc + 1;
+                }
+                else if (down)
+                {
+                    tmp->next->xLoc = tmp->xLoc;
+                    tmp->next->yLoc = tmp->yLoc - 1;
+                }
+                else if (left)
+                {
+                    tmp->next->yLoc = tmp->yLoc;
+                    tmp->next->xLoc = tmp->xLoc + 1;
+                }
             }
             if (tmp != head)
             {
@@ -176,10 +198,63 @@ void List::display(WINDOW *win)
             wrefresh(win);
             tmp = tmp->next;
         }
+        if (getch() == 'w')
+        {
+            up = true;
+            left = false;
+            right = false;
+            down = false;
+        }
+        else if (getch() == 'd')
+        {
+            up = false;
+            left = false;
+            right = true;
+            down = false;
+        }
+        else if (getch() == 'a')
+        {
+            up = false;
+            left = true;
+            right = false;
+            down = false;
+        }
+        else if (getch() == 's')
+        {
+            up = false;
+            left = false;
+            right = false;
+            down = true;
+        }
         if (tmp == NULL)
         {
             tmp = head;
-            tmp->xLoc += 1;
+            if (right)
+                tmp->xLoc += 1;
+            else if (left)
+                tmp->xLoc -= 1;
+            else if (up)
+            {
+                if (tmp->xLoc != head->xLoc)
+                {
+                    tmp->xLoc += 1;
+                }
+                else
+                {
+                    tmp->yLoc -= 1;
+                }
+            }
+            else if (down)
+            {
+                if (tmp->xLoc != head->xLoc)
+                {
+                    tmp->xLoc += 1;
+                }
+                else
+                {
+                    tmp->yLoc += 1;
+                }
+            }
         }
     }
     endwin();
