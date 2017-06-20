@@ -25,7 +25,7 @@ Piece List::getPiece(int pos) {
     return *tmp;
 }
 
-void List::insertHead(int x, int y, char c) {
+void List::addHead(int x, int y, char c){
     Piece *temp = new Piece;
     _length++;
     temp->yLoc = y;

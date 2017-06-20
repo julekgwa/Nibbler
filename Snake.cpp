@@ -7,10 +7,10 @@ Snake::Snake(WINDOW *win) {
     _currentWin = win;
     getmaxyx(_currentWin, _maxHeight, _maxWidth);
     _direction = RIGHT;
-    _snakes.insertHead((_maxWidth - 2) / 2 - 4, _maxHeight / 2, 'o');
-   _snakes.insertHead((_maxWidth - 2) / 2 - 3,  _maxHeight / 2, 'o');
-    _snakes.insertHead((_maxWidth - 2) / 2 - 2,  _maxHeight / 2, 'o');
-    _snakes.insertHead((_maxWidth - 2) / 2 - 1,  _maxHeight / 2, 'o');
+    _snakes.addHead((_maxWidth - 2) / 2 - 4, _maxHeight / 2, 'o');
+   _snakes.addHead((_maxWidth - 2) / 2 - 3,  _maxHeight / 2, 'o');
+    _snakes.addHead((_maxWidth - 2) / 2 - 2,  _maxHeight / 2, 'o');
+    _snakes.addHead((_maxWidth - 2) / 2 - 1,  _maxHeight / 2, 'o');
     keypad(_currentWin, true);
 }
 
@@ -47,6 +47,10 @@ void Snake::OST() {
     // used for displaying game lives and scores
 }
 
+
+// we'll move the snake by removing the tail and adding a new head each time
+// giving the head new location depending on the key press
+// see this answer on stackoverflow https://stackoverflow.com/questions/27906211/making-snake-game-in-cpp-movement-of-snake
 void Snake::moveSnake() {
     Piece snake = _snakes.getPiece(1);
     int x = snake.xLoc, y = snake.yLoc;
@@ -60,7 +64,7 @@ void Snake::moveSnake() {
     } else {
         x++;
     }
-    _snakes.insertHead(x, y, snake.character);
+    _snakes.addHead(x, y, snake.character);
     if (_snakes.length() > 1)
         _snakes.removeTail();
     for (int i = 1; i <= _snakes.length(); ++i) {

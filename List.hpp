@@ -19,7 +19,7 @@ public:
 
     Piece getPiece(int pos);
 
-    void insertHead(int, int, char);
+    void addHead(int, int, char);
 
 private:
     int _length;
