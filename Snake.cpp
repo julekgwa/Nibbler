@@ -16,6 +16,8 @@ Snake::Snake(WINDOW *win) {
     _snakes.addHead((_maxWidth - 2) / 2 - 2,  _maxHeight / 2, 'o');
     _snakes.addHead((_maxWidth - 2) / 2 - 1,  _maxHeight / 2, 'o');
     keypad(_currentWin, true);
+    generateFood();
+    _score = 0;
     _collision = false;
 }
 
@@ -58,6 +60,16 @@ void Snake::wallCollision() {
 
 void Snake::OST() {
     // used for displaying game lives and scores
+//    mvprintw(_maxWidth, 0, "--------------------");
+    mvprintw(_maxHeight + 1, 2, "score: %d", _score);
+    refresh();
+}
+
+void Snake::generateFood() {
+    _food = new Food;
+    _food->xLoc = (rand() % (int) (_maxWidth - 5));
+    _food->yLoc = (rand() % (int) (_maxHeight - 5));
+    _food->character = 'x';
 }
 
 
@@ -79,8 +91,13 @@ void Snake::moveSnake() {
         x++;
     }
     _snakes.addHead(x, y, snake.character);
-    if (_snakes.length() > 1)
+    if (_food->xLoc == x && _food->yLoc == y) {
+        generateFood();
+        _score++;
+    } else {
         _snakes.removeTail();
+    }
+    mvaddch(_food->yLoc, _food->xLoc, _food->character);
     tail = _snakes.getOldTail();
     mvaddch(tail.yLoc, tail.xLoc, ' ');
     for (int i = 1; i <= _snakes.length(); ++i) {

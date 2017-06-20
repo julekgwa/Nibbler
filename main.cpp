@@ -23,7 +23,7 @@ int main() {
     wborder(win, '|', '|', '-', '-', '+', '+', '+', '+');
     wrefresh(win);
     Snake *snake = new Snake(win);
-    while (snake->getMove() != 'x' && !snake->getCollision()) {
+    while (snake->getMove() != 'q' && !snake->getCollision()) {
         //clear();
         snake->moveSnake();
         snake->wallCollision();

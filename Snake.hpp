@@ -13,6 +13,7 @@
 #include <ncurses.h>
 #include <unistd.h>
 #include "List.hpp"
+#include "Food.hpp"
 
 class Snake {
 public:
@@ -26,15 +27,18 @@ public:
 
     void moveSnake(void);
 
+    void generateFood(void);
+
     void wallCollision(void);
 
     void OST(void);
 
 private:
-    int _maxHeight, _maxWidth, _direction;
+    int _maxHeight, _maxWidth, _direction, _score;
     WINDOW *_currentWin;
     bool _collision;
     List _snakes;
+    Food *_food;
 };
 
 
