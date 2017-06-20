@@ -24,15 +24,19 @@ int Snake::getMove() {
     int key = wgetch(_currentWin);
     switch (key) {
         case KEY_UP:
-            _direction = UP;
+            if (_direction != DOWN)
+                _direction = UP;
             break;
         case KEY_DOWN:
+            if (_direction != UP)
             _direction = DOWN;
             break;
         case KEY_LEFT:
+            if (_direction != RIGHT)
             _direction = LEFT;
             break;
         case KEY_RIGHT:
+            if (_direction != LEFT)
             _direction = RIGHT;
             break;
     }

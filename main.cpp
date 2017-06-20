@@ -27,6 +27,7 @@ int main() {
         clear();
         snake->moveSnake();
         snake->wallCollision();
+        //wborder(win, '|', '|', '-', '-', '+', '+', '+', '+');
         snake->OST();
     }
     endwin();
