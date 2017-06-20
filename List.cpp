@@ -25,6 +25,18 @@ Piece List::getPiece(int pos) {
     return *tmp;
 }
 
+bool List::checkPos()
+{
+    Piece *tmp = _head->next;
+    while (tmp)
+    {
+        if (tmp->xLoc == _head->xLoc && tmp->yLoc == _head->yLoc)
+            return true;
+        tmp = tmp->next;
+    }
+    return false;
+}
+
 void List::addHead(int x, int y, char c){
     Piece *temp = new Piece;
     _length++;

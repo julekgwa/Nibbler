@@ -8,6 +8,9 @@ Snake::Snake(WINDOW *win) {
     getmaxyx(_currentWin, _maxHeight, _maxWidth);
     _direction = RIGHT;
     this->_collision = false;
+    _snakes.addHead((_maxWidth - 2) / 2 - 7, _maxHeight / 2, 'o');
+    _snakes.addHead((_maxWidth - 2) / 2 - 6, _maxHeight / 2, 'o');
+    _snakes.addHead((_maxWidth - 2) / 2 - 5, _maxHeight / 2, 'o');
     _snakes.addHead((_maxWidth - 2) / 2 - 4, _maxHeight / 2, 'o');
    _snakes.addHead((_maxWidth - 2) / 2 - 3,  _maxHeight / 2, 'o');
     _snakes.addHead((_maxWidth - 2) / 2 - 2,  _maxHeight / 2, 'o');
@@ -46,7 +49,11 @@ int Snake::getMove() {
 void Snake::wallCollision() {
     Piece snake = _snakes.getPiece(1);
     if (snake.xLoc == _maxWidth || snake.yLoc == _maxHeight || snake.xLoc < 0 || snake.yLoc < 0)
+    {
         _collision = true;
+        return ;
+    }
+    _collision = _snakes.checkPos();
 }
 
 void Snake::OST() {

@@ -20,6 +20,7 @@ public:
     Piece getPiece(int pos);
 
     void addHead(int, int, char);
+    bool checkPos();
 
 private:
     int _length;
