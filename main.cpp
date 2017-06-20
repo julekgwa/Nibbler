@@ -48,7 +48,8 @@ void List::setMax(int x, int y)
     this->maxY = y;
 }
 //eat method for adding new cell to snake to be expanded for scoring
-void List::eat(List obj/* to be passed by reference*/,int foodx, int foody){
+void List::eat(List obj /* to be passed by reference*/, int foodx, int foody)
+{
     if (head->xLoc == foodx || head->yLoc >= foody)
     {
         obj.createnode(0, 0, 0, '@');
@@ -79,28 +80,46 @@ bool List::collide2(WINDOW *win, int x, int y)
     node *tmp = new node;
     tmp = head;
     tmp = tmp->next;
-
-    if ((x >= this->maxX || y >= this->maxY) || (x <= 0 || y <= 0))
+    if ((head->xLoc == this->maxX - 1 || head->yLoc == this->maxY) || (head->xLoc == 0 || head->yLoc == 0))
     {
-        mvwprintw(win, 10, 10, "Hit Wall");
+        mvwprintw(win, 10, 10, "Hit Wall at X::%d-%d Y::%d-%d", head->xLoc, maxX, head->yLoc, maxY);
+        //reprint  the entire snake on collision
+        while (tmp)
+        {
+            if (tmp->next)
+            {
+                tmp->next->yLoc = tmp->yLoc;
+                tmp->next->xLoc = tmp->xLoc - 1;
+            }
+            mvwaddch(win, tmp->yLoc, tmp->xLoc, tmp->c);
+            wrefresh(win);
+            tmp = tmp->next;
+        }
         wrefresh(win);
         //slow down the game to allow for viewing of the message.
         usleep(1e+9 / 100);
         return (true);
     }
-    //check if the head of the snake is at the same position as on of its body parts;
-    while (tmp)
+    //check if the head of the snake is at the same position as the current body part being rendered;
+    if ((head->xLoc == x && head->yLoc == y))
     {
-
-        if ((head->xLoc == x && head->yLoc == y))
+        mvwprintw(win, 10, 10, "eat self");
+        //reprint  the entire snake on collision
+        while (tmp)
         {
-            mvwprintw(win, 10, 10, "eat self");
+            if (tmp->next)
+            {
+                tmp->next->yLoc = tmp->yLoc;
+                tmp->next->xLoc = tmp->xLoc - 1;
+            }
+            mvwaddch(win, tmp->yLoc, tmp->xLoc, tmp->c);
             wrefresh(win);
-            //slow down the game to allow for viewing of the message.
-            usleep(1e+9 / 100);
-            return (true);
+            tmp = tmp->next;
         }
-        tmp = tmp->next;
+        wrefresh(win);
+        //slow down the game to allow for viewing of the message.
+        usleep(1e+9 / 100);
+        return (true);
     }
     return (false);
 }
@@ -182,10 +201,10 @@ int main()
     box(win, 0, 0);
     wborder(win, '|', '|', '-', '-', '+', '+', '+', '+');
     wrefresh(win);
-    obj.createnode(12, width / 2, height / 2, 'C');
-    obj.createnode(0, 0, 0, '@');
-    obj.createnode(0, 0, 0, '@');
-    obj.createnode(0, 0, 0, '@');
+    obj.createnode(12, width / 2, height / 2, '>');
+    obj.createnode(0, 0, 0, '#');
+    obj.createnode(0, 0, 0, '#');
+    obj.createnode(0, 0, 0, '#');
     obj.setMax(width, height);
     obj.display(win);
     endwin();
