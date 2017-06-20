@@ -18,7 +18,7 @@
 
 class Snake {
 public:
-    Snake();
+    Snake(WINDOW *);
 
     ~Snake();
 
@@ -34,7 +34,7 @@ public:
 
     void OST(void);
 
-    void init();
+//    void init();
 
 private:
     int _maxHeight, _maxWidth, _direction, _score;

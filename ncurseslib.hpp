@@ -2,11 +2,25 @@
 // Created by julekgwa on 2017/06/20.
 //
 
-#ifndef NIBBLER_LIST_HPP
-#define NIBBLER_LIST_HPP
+#ifndef NIBBLER_NCURSESLIB_HPP
+#define NIBBLER_NCURSESLIB_HPP
 
-#include "Piece.hpp"
+#include <ncurses.h>
 #include <iostream>
+
+typedef struct Piece {
+    struct Piece *next;
+    int xLoc, yLoc;
+    char character;
+} Piece;
+
+typedef struct Food {
+    int xLoc, yLoc;
+    char character;
+}Food;
+
+WINDOW *init();
+
 class List {
 public:
     List();
@@ -30,4 +44,4 @@ private:
 };
 
 
-#endif //NIBBLER_LIST_HPP
+#endif //NIBBLER_NCURSESLIB_HPP
