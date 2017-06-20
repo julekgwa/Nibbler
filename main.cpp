@@ -13,6 +13,7 @@ typedef struct node
 {
     int data;
     int xLoc, yLoc;
+    int oldX, oldY;
     char c;
     struct node *next;
 } node;
@@ -78,8 +79,7 @@ void List::createnode(int value, int xLoc, int yLoc, char c)
 //revised collision
 bool List::collide2(WINDOW *win, int x, int y)
 {
-    node *tmp = new node;
-    tmp = head;
+    node *tmp = head;
     tmp = tmp->next;
     if ((head->xLoc == this->maxX - 1 || head->yLoc == this->maxY) || (head->xLoc == 0 || head->yLoc == 0))
     {
@@ -127,8 +127,7 @@ bool List::collide2(WINDOW *win, int x, int y)
 //first collision made....rev 2 is better
 bool List::collide(WINDOW *win)
 {
-    node *tmp = new node;
-    tmp = head;
+    node *tmp = head;
     tmp = tmp->next;
     //check to see if the snake has collided with the wall.
     if ((tmp->xLoc >= this->maxX || tmp->yLoc >= this->maxY) || (tmp->yLoc <= 0 || tmp->xLoc <= 0))
@@ -152,8 +151,7 @@ bool List::collide(WINDOW *win)
 }
 void List::display(WINDOW *win)
 {
-    node *tmp = new node;
-    tmp = head;
+    node *tmp = head;
     bool up = false;
     bool down = false;
     bool right = true;
@@ -265,6 +263,7 @@ int main()
     List obj;
 
     initscr();
+    noecho();
     int height, width, starty, startx;
     getmaxyx(stdscr, height, width);
     curs_set(0);
