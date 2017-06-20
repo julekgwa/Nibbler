@@ -8,6 +8,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+enum Movement {
+    Up = 1, Right, Down, Left
+};
+
 using namespace std;
 typedef struct node {
     int data;
@@ -21,7 +25,9 @@ private:
     node *head, *tail;
     int maxX;
     int maxY;
+    int dir = 1;
     int length;
+//    Movement dir = Right;
 public:
     List();
 
@@ -52,23 +58,50 @@ List::List() {
 
 int List::getMove(WINDOW *win) {
     int key = wgetch(win);
-//    switch (key) {
-//        case KEY_UP:
-//            this->moveUp();
-//            break;
-//        case KEY_DOWN:
-//            this->moveDown();
-//            break;
-//        case KEY_LEFT:
-//            this->moveLeft();
-//            break;
-//        case KEY_RIGHT:
-//            this->moveRight();
-//            break;
-//        default:
-//            break;
-//    }
+    switch (key) {
+        case KEY_UP:
+            dir = 1;
+            break;
+        case KEY_DOWN:
+            dir = 2;
+            break;
+        case KEY_LEFT:
+            dir = 3;
+            break;
+        case KEY_RIGHT:
+            dir = 4;
+            break;
+    }
     return key;
+}
+
+
+void List::moveSnake(WINDOW *win) {
+    node k = getSnake(1);
+    int x = k.xLoc, y = k.yLoc;
+    char c = k.c;
+//    getMove(win);
+    if (dir == 1) {
+        y--;
+    } else if (dir == 2) {
+        y++;
+    } else if (dir == 3) {
+        x--;
+    } else {
+        x++;
+    }
+
+    insert_start(12, x, y, c);
+    if (length > 10)
+        delete_last();
+    for (int i = 1; i <= length; ++i) {
+        k = getSnake(i);
+        if (i > 1)
+            c = '|';
+        mvaddch(k.yLoc, k.xLoc, c);
+        refresh();
+    }
+    wrefresh(win);
 }
 
 node List::getSnake(int pos) {
@@ -80,32 +113,6 @@ node List::getSnake(int pos) {
         tmp = tmp->next;
     }
     return *tmp;
-}
-
-void List::moveSnake(WINDOW *win) {
-    node k = getSnake(1);
-    int x = k.xLoc, y = k.yLoc;
-    char c = k.c;
-    int move = wgetch(win);
-    if (move == KEY_UP) {
-        y--;
-    } else if (move == KEY_DOWN) {
-        y++;
-    } else if(move == KEY_LEFT)  {
-        x--;
-    } else {
-        x++;
-    }
-
-    insert_start(12, x, y, c);
-    if (length > 1)
-        delete_last();
-    wclear(win);
-    for (int i = 1; i <= length; ++i) {
-        k = getSnake(i);
-        mvaddch(k.yLoc, k.xLoc, k.c);
-    }
-    wrefresh(win);
 }
 
 void List::insert_start(int value, int x, int y, char c) {
@@ -197,8 +204,9 @@ void List::display(WINDOW *win) {
 }
 
 
+
 int main() {
-    List obj;
+    List *obj = new List;
 //    obj.createnode(6);
 //    obj.createnode(0);
 //    obj.createnode(0);
@@ -222,17 +230,22 @@ int main() {
     wborder(win, '|', '|', '-', '-', '+', '+', '+', '+');
     wrefresh(win);
     keypad(win, true);
-    obj.createnode(12, width / 2, height / 2, 'C');
-    obj.createnode(0, width / 2 - 1, height / 2, '@');
-    obj.createnode(0, width / 2 - 2, height / 2, '@');
-    obj.createnode(0, width / 2 - 3, height / 2, '@');
+    obj->createnode(12, width / 2, height / 2, 'o');
+//    obj.createnode(0, width / 2 - 1, height / 2, '@');
+//    obj.createnode(0, width / 2 - 2, height / 2, '@');
+//    obj.createnode(0, width / 2 - 3, height / 2, '@');
+//    obj.createnode(0, width / 2 - 4, height / 2, '@');
+//    obj.createnode(0, width / 2 - 5, height / 2, '@');
 //    obj.createnode(0, 0, 0, 'a');
 //    obj.createnode(0, 0, 0, 'b');
 //    obj.setMax(width, height);
-    int move = 0;
-    while (getch() != 'x') {
-        obj.moveSnake(win);
-        wrefresh(win);
+    int move = 'y';
+    while (obj->getMove(win) != 'x') {
+//        move = obj.getMove(win);
+//        mvaddch(0,0, move);
+        clear();
+        obj->moveSnake(win);
+//        wrefresh(win);
     }
     endwin();
     return 0;

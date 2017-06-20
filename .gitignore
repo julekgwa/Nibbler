@@ -138,3 +138,5 @@ GitHub.sublime-settings
 
 # End of https://www.gitignore.io/api/macos,cmake,clion,linux,sublimetext
 a.out
+CMakeLists.txt
+test.cpp
