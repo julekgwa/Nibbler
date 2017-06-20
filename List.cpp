@@ -47,9 +47,14 @@ void List::addHead(int x, int y, char c){
     _head = temp;
 }
 
+Piece List::getOldTail()
+{
+    return _oldTail;
+}
+
 void List::removeTail() {
-    Piece *current = new Piece;
-    Piece *previous = new Piece;
+    Piece *current;
+    Piece *previous;
     current = _head;
     while (current->next != NULL) {
         previous = current;
@@ -58,5 +63,5 @@ void List::removeTail() {
     _tail = previous;
     _length--;
     previous->next = NULL;
-    delete current;
+    _oldTail = *current;
 }

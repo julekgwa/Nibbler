@@ -24,10 +24,9 @@ int main() {
     wrefresh(win);
     Snake *snake = new Snake(win);
     while (snake->getMove() != 'x' && !snake->getCollision()) {
-        clear();
+        //clear();
         snake->moveSnake();
         snake->wallCollision();
-        //wborder(win, '|', '|', '-', '-', '+', '+', '+', '+');
         snake->OST();
     }
     endwin();

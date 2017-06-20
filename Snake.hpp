@@ -11,6 +11,7 @@
 
 #include <iostream>
 #include <ncurses.h>
+#include <unistd.h>
 #include "List.hpp"
 
 class Snake {

@@ -21,10 +21,12 @@ public:
 
     void addHead(int, int, char);
     bool checkPos();
+    Piece getOldTail();
 
 private:
     int _length;
     Piece *_head, *_tail;
+    Piece _oldTail;
 };
 
 

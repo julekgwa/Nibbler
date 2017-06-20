@@ -48,7 +48,7 @@ int Snake::getMove() {
 
 void Snake::wallCollision() {
     Piece snake = _snakes.getPiece(1);
-    if (snake.xLoc == _maxWidth || snake.yLoc == _maxHeight || snake.xLoc < 0 || snake.yLoc < 0)
+    if (snake.xLoc == _maxWidth || snake.yLoc == _maxHeight  || snake.xLoc == 1 || snake.yLoc == 1)
     {
         _collision = true;
         return ;
@@ -66,6 +66,7 @@ void Snake::OST() {
 // see this answer on stackoverflow https://stackoverflow.com/questions/27906211/making-snake-game-in-cpp-movement-of-snake
 void Snake::moveSnake() {
     Piece snake = _snakes.getPiece(1);
+    Piece tail;
     int x = snake.xLoc, y = snake.yLoc;
     char character = snake.character;
     if (_direction == UP) {
@@ -80,6 +81,8 @@ void Snake::moveSnake() {
     _snakes.addHead(x, y, snake.character);
     if (_snakes.length() > 1)
         _snakes.removeTail();
+    tail = _snakes.getOldTail();
+    mvaddch(tail.yLoc, tail.xLoc, ' ');
     for (int i = 1; i <= _snakes.length(); ++i) {
         snake = _snakes.getPiece(i);
         if (i > 1)
