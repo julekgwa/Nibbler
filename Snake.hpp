@@ -12,8 +12,7 @@
 #include <iostream>
 #include <ncurses.h>
 #include <unistd.h>
-#include "List.hpp"
-#include "Food.hpp"
+#include "ncurseslib.hpp"
 #include <cstdlib>
 
 class Snake {
