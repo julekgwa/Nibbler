@@ -32,6 +32,7 @@ class List
     void display(WINDOW *);
     bool collide(WINDOW *);
     bool collide2(WINDOW *, int x, int y);
+    void eat(List);
     void setMax(int x, int y);
 };
 
@@ -46,7 +47,13 @@ void List::setMax(int x, int y)
     this->maxX = x;
     this->maxY = y;
 }
-
+//eat method for adding new cell to snake to be expanded for scoring
+void List::eat(List obj/* to be passed by reference*/, foodx, foody){
+    if (head->xLoc == foodx || head->yLoc >= foody)
+    {
+        obj.createnode(0, 0, 0, '@');
+    }
+}
 void List::createnode(int value, int xLoc, int yLoc, char c)
 {
     node *temp = new node;
