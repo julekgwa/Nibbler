@@ -32,7 +32,7 @@ public:
 private:
     int _maxHeight, _maxWidth, _direction;
     WINDOW *_currentWin;
-    bool _collision = false;
+    bool _collision;
     List _snakes;
 };
 

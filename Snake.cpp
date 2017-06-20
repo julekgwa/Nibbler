@@ -7,6 +7,7 @@ Snake::Snake(WINDOW *win) {
     _currentWin = win;
     getmaxyx(_currentWin, _maxHeight, _maxWidth);
     _direction = RIGHT;
+    this->_collision = false;
     _snakes.addHead((_maxWidth - 2) / 2 - 4, _maxHeight / 2, 'o');
    _snakes.addHead((_maxWidth - 2) / 2 - 3,  _maxHeight / 2, 'o');
     _snakes.addHead((_maxWidth - 2) / 2 - 2,  _maxHeight / 2, 'o');
