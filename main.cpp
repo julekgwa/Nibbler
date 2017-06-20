@@ -75,6 +75,7 @@ void List::createnode(int value, int xLoc, int yLoc, char c)
         tail = temp;
     }
 }
+//revised collision
 bool List::collide2(WINDOW *win, int x, int y)
 {
     node *tmp = new node;
@@ -123,6 +124,7 @@ bool List::collide2(WINDOW *win, int x, int y)
     }
     return (false);
 }
+//first collision made....rev 2 is better
 bool List::collide(WINDOW *win)
 {
     node *tmp = new node;
