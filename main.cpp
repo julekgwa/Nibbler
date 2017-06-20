@@ -31,6 +31,7 @@ class List
 
     void display(WINDOW *);
     bool collide(WINDOW *);
+    bool collide2(WINDOW *, int x, int y);
     void setMax(int x, int y);
 };
 
@@ -66,26 +67,27 @@ void List::createnode(int value, int xLoc, int yLoc, char c)
         tail = temp;
     }
 }
-bool List::collide(WINDOW *win)
+bool List::collide2(WINDOW *win, int x, int y)
 {
     node *tmp = new node;
     tmp = head;
     tmp = tmp->next;
-    //check to see if the snake has collided with the wall.
-    if ((tmp->xLoc >= this->maxX || tmp->yLoc >= this->maxY) || (tmp->yLoc <= 0 || tmp->xLoc <= 0))
-        {
-            mvwprintw(win, 10, 10, "Hit Wall", head->yLoc, maxY, head->xLoc, maxX);
-            wrefresh(win);
-            //slow down the game to allow for viewing of the message.
-            usleep(1e+9 / 100);
-            return (true);
-        }
+
+    if ((x >= this->maxX || y >= this->maxY) || (x <= 0 || y <= 0))
+    {
+        mvwprintw(win, 10, 10, "Hit Wall");
+        wrefresh(win);
+        //slow down the game to allow for viewing of the message.
+        usleep(1e+9 / 100);
+        return (true);
+    }
     //check if the head of the snake is at the same position as on of its body parts;
     while (tmp)
     {
-        if ((tmp->xLoc  == head->xLoc && tmp->yLoc == head->yLoc))
+
+        if ((head->xLoc == x && head->yLoc == y))
         {
-            mvwprintw(win, 10, 10, "eat self", head->yLoc, maxY, head->xLoc, maxX);
+            mvwprintw(win, 10, 10, "eat self");
             wrefresh(win);
             //slow down the game to allow for viewing of the message.
             usleep(1e+9 / 100);
@@ -95,16 +97,37 @@ bool List::collide(WINDOW *win)
     }
     return (false);
 }
+bool List::collide(WINDOW *win)
+{
+    node *tmp = new node;
+    tmp = head;
+    tmp = tmp->next;
+    //check to see if the snake has collided with the wall.
+    if ((tmp->xLoc >= this->maxX || tmp->yLoc >= this->maxY) || (tmp->yLoc <= 0 || tmp->xLoc <= 0))
+    {
+        mvwprintw(win, 10, 10, "Hit Wall", head->yLoc, maxY, head->xLoc, maxX);
+        wrefresh(win);
+        //slow down the game to allow for viewing of the message.
+        usleep(1e+9 / 100);
+        return (true);
+    }
+    //check if the head of the snake is at the same position as on of its body parts;
+    if ((tmp->xLoc == head->xLoc && tmp->yLoc == head->yLoc))
+    {
+        mvwprintw(win, 10, 10, "eat self", head->yLoc, maxY, head->xLoc, maxX);
+        wrefresh(win);
+        //slow down the game to allow for viewing of the message.
+        usleep(1e+9 / 100);
+        return (true);
+    }
+    return (false);
+}
 void List::display(WINDOW *win)
 {
     node *tmp = new node;
     tmp = head;
     while (getch() != 'x')
     {
-        //        cout << tmp->data << "\t";
-        //        if (tmp->data == 5) {
-        //            createnode(0);
-        //        }
         wclear(win);
         wborder(win, '|', '|', '-', '-', '+', '+', '+', '+');
         while (tmp)
@@ -114,14 +137,16 @@ void List::display(WINDOW *win)
                 tmp->next->yLoc = tmp->yLoc;
                 tmp->next->xLoc = tmp->xLoc - 1;
             }
-
+            if (tmp != head)
+            {
+                if (collide2(win, tmp->xLoc, tmp->yLoc))
+                {
+                    break;
+                }
+            }
             mvwaddch(win, tmp->yLoc, tmp->xLoc, tmp->c);
             wrefresh(win);
             tmp = tmp->next;
-        }
-        //check for collision
-        if (collide(win)){
-            break;
         }
         if (tmp == NULL)
         {
@@ -135,13 +160,6 @@ void List::display(WINDOW *win)
 int main()
 {
     List obj;
-    //    obj.createnode(6);
-    //    obj.createnode(0);
-    //    obj.createnode(0);
-    //    obj.createnode(0);
-    //    obj.createnode(0);
-    //    obj.createnode(0);
-    //    obj.display();
 
     initscr();
     int height, width, starty, startx;
