@@ -12,6 +12,7 @@ Snake::Snake(WINDOW *win) {
     _snakes.addHead((_maxWidth - 2) / 2 - 2,  _maxHeight / 2, 'o');
     _snakes.addHead((_maxWidth - 2) / 2 - 1,  _maxHeight / 2, 'o');
     keypad(_currentWin, true);
+    _collision = false;
 }
 
 Snake::~Snake() {
