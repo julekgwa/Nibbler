@@ -3,26 +3,57 @@
 //
 
 #include "Snake.hpp"
-Snake::Snake(WINDOW *win) {
-    _currentWin = win;
-    getmaxyx(_currentWin, _maxHeight, _maxWidth);
-    _direction = RIGHT;
-    this->_collision = false;
-    _snakes.addHead((_maxWidth - 2) / 2 - 7, _maxHeight / 2, 'o');
-    _snakes.addHead((_maxWidth - 2) / 2 - 6, _maxHeight / 2, 'o');
-    _snakes.addHead((_maxWidth - 2) / 2 - 5, _maxHeight / 2, 'o');
-    _snakes.addHead((_maxWidth - 2) / 2 - 4, _maxHeight / 2, 'o');
-   _snakes.addHead((_maxWidth - 2) / 2 - 3,  _maxHeight / 2, 'o');
-    _snakes.addHead((_maxWidth - 2) / 2 - 2,  _maxHeight / 2, 'o');
-    _snakes.addHead((_maxWidth - 2) / 2 - 1,  _maxHeight / 2, 'o');
-    keypad(_currentWin, true);
-    generateFood();
-    _score = 0;
-    _collision = false;
+Snake::Snake() {
+//    _currentWin = win;
+//    getmaxyx(_currentWin, _maxHeight, _maxWidth);
+//    _direction = RIGHT;
+//    this->_collision = false;
+//    _snakes.addHead((_maxWidth - 2) / 2 - 7, _maxHeight / 2, 'o');
+//    _snakes.addHead((_maxWidth - 2) / 2 - 6, _maxHeight / 2, 'o');
+//    _snakes.addHead((_maxWidth - 2) / 2 - 5, _maxHeight / 2, 'o');
+//    _snakes.addHead((_maxWidth - 2) / 2 - 4, _maxHeight / 2, 'o');
+//   _snakes.addHead((_maxWidth - 2) / 2 - 3,  _maxHeight / 2, 'o');
+//    _snakes.addHead((_maxWidth - 2) / 2 - 2,  _maxHeight / 2, 'o');
+//    _snakes.addHead((_maxWidth - 2) / 2 - 1,  _maxHeight / 2, 'o');
+//    keypad(_currentWin, true);
+//    generateFood();
+//    _score = 0;
+//    _collision = false;
 }
 
 Snake::~Snake() {
 
+}
+
+void Snake::init() {
+    initscr();
+    int height, width, starty, startx;
+    getmaxyx(stdscr, height, width);
+    curs_set(0);
+    starty = (height - (height - 2)) / 2; /* Calculating for a center placement */
+    startx = (width - (width - 2)) / 2;
+    height -= 2;
+    width -= 2;
+    halfdelay(1);
+    _currentWin = newwin(height, width, starty, startx);
+    getmaxyx(_currentWin, _maxHeight, _maxWidth);
+    refresh();
+    _snakes.addHead((_maxWidth - 2) / 2 - 7, _maxHeight / 2, 'o');
+    _snakes.addHead((_maxWidth - 2) / 2 - 6, _maxHeight / 2, 'o');
+    _snakes.addHead((_maxWidth - 2) / 2 - 5, _maxHeight / 2, 'o');
+    _snakes.addHead((_maxWidth - 2) / 2 - 4, _maxHeight / 2, 'o');
+    _snakes.addHead((_maxWidth - 2) / 2 - 3,  _maxHeight / 2, 'o');
+    _snakes.addHead((_maxWidth - 2) / 2 - 2,  _maxHeight / 2, 'o');
+    _snakes.addHead((_maxWidth - 2) / 2 - 1,  _maxHeight / 2, 'o');
+    keypad(_currentWin, true);
+    generateFood();
+    _direction = RIGHT;
+    this->_collision = false;
+    _score = 0;
+    _collision = false;
+    box(_currentWin, 0, 0);
+    wborder(_currentWin, '|', '|', '-', '-', '+', '+', '+', '+');
+    wrefresh(_currentWin);
 }
 
 int Snake::getMove() {
@@ -60,15 +91,27 @@ void Snake::wallCollision() {
 
 void Snake::OST() {
     // used for displaying game lives and scores
-//    mvprintw(_maxWidth, 0, "--------------------");
+//    mvprintw(0, 0, "Max w: %d | Max h: %d | F x: %d, F y: %d", _maxWidth, _maxHeight, _food->xLoc, _food->yLoc);
     mvprintw(_maxHeight + 1, 2, "score: %d", _score);
     refresh();
 }
 
 void Snake::generateFood() {
+    srand(time(NULL)); // Seed the time
     _food = new Food;
-    _food->xLoc = (rand() % (int) (_maxWidth - 5));
-    _food->yLoc = (rand() % (int) (_maxHeight - 5));
+    int y = rand() % ((int) (_maxHeight - 2 + 1) + 2);
+    int x = rand() % ((int) (_maxWidth - 2 + 1) + 2);
+    if (y >= _maxHeight)
+        y = _maxHeight - 2;
+    if (y <= 1) {
+        y = 3;
+    }
+    if (x >= _maxWidth)
+        x = _maxWidth - 2;
+    if (x <= 1)
+        x = 3;
+    _food->xLoc = x;
+    _food->yLoc = y;
     _food->character = 'x';
 }
 

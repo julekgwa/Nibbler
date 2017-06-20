@@ -14,10 +14,11 @@
 #include <unistd.h>
 #include "List.hpp"
 #include "Food.hpp"
+#include <cstdlib>
 
 class Snake {
 public:
-    Snake(WINDOW *win);
+    Snake();
 
     ~Snake();
 
@@ -32,6 +33,8 @@ public:
     void wallCollision(void);
 
     void OST(void);
+
+    void init();
 
 private:
     int _maxHeight, _maxWidth, _direction, _score;
