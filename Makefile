@@ -14,7 +14,7 @@ fclean: clean
 
 ncurseslib.so:
 	@clang++ $(LIBFLAG) -g -fPIC -c ncurseslib.cpp
-	@clang++ -shared -o libncurseslib.so ncurseslib.o
+	@clang++ -shared -o libncurseslib.so -lncurses ncurseslib.o
 	@echo "\033[32mCreated ncurseslib library.\033[0m"
 
 re: fclean all

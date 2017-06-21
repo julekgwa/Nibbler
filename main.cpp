@@ -3,7 +3,6 @@
 //
 
 #include "Snake.hpp"
-#include "ncurseslib.hpp"
 
 int main() {
     WINDOW *window = init();
@@ -13,6 +12,8 @@ int main() {
         snake->moveSnake();
         snake->wallCollision();
         snake->OST();
+        if (snake->getCollision())
+            snake->displayScore();
     }
     endwin();
     return 0;
