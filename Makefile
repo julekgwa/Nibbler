@@ -8,7 +8,7 @@ $(NAME):
 	@echo "\033[32mMade!. \033[0m"
 
 clean:
-	rm $(NAME)
+	@rm $(NAME)
 
 fclean: clean
 

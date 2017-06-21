@@ -82,6 +82,11 @@ void Snake::generateFood() {
     _food->xLoc = x;
     _food->yLoc = y;
     _food->character = 'x';
+    while ((_food->xLoc > _maxWidth || _food->xLoc <= 1) || (_food->yLoc > _maxHeight || _food->yLoc <= 1))
+    {   
+        _food->xLoc = (rand() % (int) (_maxWidth - 5));
+        _food->yLoc = (rand() % (int) (_maxHeight - 5));
+    }
 }
 
 
