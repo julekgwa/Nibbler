@@ -58,6 +58,21 @@ void Snake::wallCollision() {
     _collision = _snakes.checkPos();
 }
 
+void Snake::displayScore()
+{
+    std::stringstream score;
+
+    clear();
+    mvprintw((_maxHeight / 2), (_maxWidth / 2), "******************************");
+    score.str("");
+    score << "*Your final Score was:" << std::left <<std::setfill('*') << std::setw(8) << _score;
+    mvprintw((_maxHeight / 2) + 1, (_maxWidth / 2), score.str().c_str());
+    mvprintw((_maxHeight / 2) + 2, (_maxWidth / 2), "******************************");
+    refresh();
+    usleep(1e+9 / 1000);
+    return ;
+}
+
 void Snake::OST() {
     // used for displaying game lives and scores
 //    mvprintw(0, 0, "Max w: %d | Max h: %d | F x: %d, F y: %d", _maxWidth, _maxHeight, _food->xLoc, _food->yLoc);

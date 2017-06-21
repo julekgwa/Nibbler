@@ -15,8 +15,9 @@
 #include "ncurseslib.hpp"
 #include <cstdlib>
 #include <stdlib.h>
-#include "List.hpp"
-#include "Food.hpp"
+#include <sstream>
+#include <iomanip>
+#include "ncurseslib.hpp"
 
 class Snake {
 public:
@@ -33,6 +34,8 @@ public:
     void generateFood(void);
 
     void wallCollision(void);
+
+    void displayScore(void);
 
     void OST(void);
 
