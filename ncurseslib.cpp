@@ -2,7 +2,25 @@
 // Created by julekgwa on 2017/06/20.
 //
 
-#include "List.hpp"
+#include "ncurseslib.hpp"
+
+WINDOW *init() {
+    initscr();
+    int height, width, starty, startx;
+    getmaxyx(stdscr, height, width);
+    curs_set(0);
+    starty = (height - (height - 2)) / 2; /* Calculating for a center placement */
+    startx = (width - (width - 2)) / 2;
+    height -= 2;
+    width -= 2;
+    halfdelay(1);
+    WINDOW *window = newwin(height, width, starty, startx);
+    refresh();
+    box(window, 0, 0);
+    wborder(window, '|', '|', '-', '-', '+', '+', '+', '+');
+    wrefresh(window);
+    return window;
+}
 
 List::List() : _length(0), _head(NULL), _tail(NULL) {}
 

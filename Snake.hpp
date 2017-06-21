@@ -12,13 +12,15 @@
 #include <iostream>
 #include <ncurses.h>
 #include <unistd.h>
+#include "ncurseslib.hpp"
+#include <cstdlib>
 #include <stdlib.h>
 #include "List.hpp"
 #include "Food.hpp"
 
 class Snake {
 public:
-    Snake(WINDOW *win);
+    Snake(WINDOW *);
 
     ~Snake();
 
@@ -33,6 +35,8 @@ public:
     void wallCollision(void);
 
     void OST(void);
+
+//    void init();
 
 private:
     int _maxHeight, _maxWidth, _direction, _score;
