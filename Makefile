@@ -7,7 +7,7 @@ $(NAME):
 	@echo Made!
 
 clean:
-	rm $(NAME)
+	@rm $(NAME)
 
 fclean: clean
 
