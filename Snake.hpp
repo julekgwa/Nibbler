@@ -15,8 +15,6 @@
 #include "ncurseslib.hpp"
 #include <cstdlib>
 #include <stdlib.h>
-#include "List.hpp"
-#include "Food.hpp"
 
 class Snake {
 public:
