@@ -8,7 +8,6 @@ int main() {
     WINDOW *window = init();
     Snake *snake = new Snake(window);
     while (snake->getMove() != 'q' && !snake->getCollision()) {
-        //clear();
         snake->moveSnake();
         snake->wallCollision();
         snake->OST();
