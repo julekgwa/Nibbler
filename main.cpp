@@ -11,8 +11,10 @@ int main() {
         snake->moveSnake();
         snake->wallCollision();
         snake->OST();
-        if (snake->getCollision())
+        if (snake->getCollision()) {
             snake->displayScore();
+            sleep(3);
+        }
     }
     endwin();
     return 0;
