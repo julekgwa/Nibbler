@@ -36,6 +36,7 @@ public:
     void addHead(int, int, char);
     bool checkPos();
     Piece getOldTail();
+    void printSnakePieces(Food *food, List snakes);
 
 private:
     int _length;

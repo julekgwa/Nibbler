@@ -141,3 +141,4 @@ CMakeLists.txt
 test.cpp
 /**/*.o
 /**/*.so
+Nibbler

@@ -38,7 +38,6 @@ public:
 
     void OST(void);
 
-//    void init();
 
 private:
     int _maxHeight, _maxWidth, _direction, _score;
