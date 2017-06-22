@@ -42,11 +42,15 @@ public:
     Piece getOldTail();
     void printSnakePieces(Food *food, List snakes);
     void displayScore(int _score, int _maxWidth, int _maxHeight);
+    WINDOW *getWindow(void);
+    void    OST(int _score);
 
 private:
     int _length;
+    int height, width;
     Piece *_head, *_tail;
     Piece _oldTail;
+    WINDOW *_window;
 };
 
 

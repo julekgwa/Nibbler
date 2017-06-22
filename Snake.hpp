@@ -17,7 +17,7 @@
 
 class Snake {
 public:
-    Snake(WINDOW *);
+    Snake();
 
     ~Snake();
 
@@ -38,7 +38,6 @@ public:
 
 private:
     int _maxHeight, _maxWidth, _direction, _score;
-    WINDOW *_currentWin;
     bool _collision;
     List _snakes;
     Food *_food;

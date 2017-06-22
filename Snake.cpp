@@ -4,9 +4,8 @@
 
 #include "Snake.hpp"
 
-Snake::Snake(WINDOW *win) {
-    _currentWin = win;
-    getmaxyx(_currentWin, _maxHeight, _maxWidth);
+Snake::Snake() {
+    getmaxyx(_snakes.getWindow(), _maxHeight, _maxWidth);
     _snakes.addHead((_maxWidth - 2) / 2 - 7, _maxHeight / 2, 'o');
     _snakes.addHead((_maxWidth - 2) / 2 - 6, _maxHeight / 2, 'o');
     _snakes.addHead((_maxWidth - 2) / 2 - 5, _maxHeight / 2, 'o');
@@ -14,7 +13,7 @@ Snake::Snake(WINDOW *win) {
     _snakes.addHead((_maxWidth - 2) / 2 - 3, _maxHeight / 2, 'o');
     _snakes.addHead((_maxWidth - 2) / 2 - 2, _maxHeight / 2, 'o');
     _snakes.addHead((_maxWidth - 2) / 2 - 1, _maxHeight / 2, 'o');
-    keypad(_currentWin, true);
+    keypad(_snakes.getWindow(), true);
     generateFood();
     _direction = RIGHT;
     this->_collision = false;
@@ -27,7 +26,7 @@ Snake::~Snake() {
 }
 
 int Snake::getMove() {
-    int key = wgetch(_currentWin);
+    int key = wgetch(_snakes.getWindow());
     switch (key) {
         case KEY_UP:
             if (_direction != DOWN)
@@ -66,8 +65,9 @@ void Snake::displayScore() {
 void Snake::OST() {
     // used for displaying game lives and scores
 //    mvprintw(0, 0, "Max w: %d | Max h: %d | F x: %d, F y: %d", _maxWidth, _maxHeight, _food->xLoc, _food->yLoc);
-    mvprintw(_maxHeight + 1, 2, "score: %d", _score);
-    refresh();
+//    mvprintw(_maxHeight + 1, 2, "score: %d", _score);
+//    refresh();
+    _snakes.OST(_score);
 }
 
 void Snake::generateFood() {

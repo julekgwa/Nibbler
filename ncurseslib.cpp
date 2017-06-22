@@ -4,9 +4,26 @@
 
 #include "ncurseslib.hpp"
 
-WINDOW *init() {
+//WINDOW *init() {
+//    initscr();
+//    int height, width, starty, startx;
+//    getmaxyx(stdscr, height, width);
+//    curs_set(0);
+//    starty = (height - (height - 2)) / 2; /* Calculating for a center placement */
+//    startx = (width - (width - 2)) / 2;
+//    height -= 2;
+//    width -= 2;
+//    halfdelay(1);
+//    WINDOW *window = newwin(height, width, starty, startx);
+//    refresh();
+//    box(window, 0, 0);
+//    wborder(window, '|', '|', '-', '-', '+', '+', '+', '+');
+//    wrefresh(window);
+//    return window;
+//}
+List::List() : _length(0), _head(NULL), _tail(NULL) {
     initscr();
-    int height, width, starty, startx;
+    int starty, startx;
     getmaxyx(stdscr, height, width);
     curs_set(0);
     starty = (height - (height - 2)) / 2; /* Calculating for a center placement */
@@ -14,15 +31,23 @@ WINDOW *init() {
     height -= 2;
     width -= 2;
     halfdelay(1);
-    WINDOW *window = newwin(height, width, starty, startx);
+    _window = newwin(height, width, starty, startx);
     refresh();
-    box(window, 0, 0);
-    wborder(window, '|', '|', '-', '-', '+', '+', '+', '+');
-    wrefresh(window);
-    return window;
+    box(_window, 0, 0);
+    wborder(_window, '|', '|', '-', '-', '+', '+', '+', '+');
+    wrefresh(_window);
 }
 
-List::List() : _length(0), _head(NULL), _tail(NULL) {}
+WINDOW *List::getWindow()
+{
+    return _window;
+}
+
+void    List::OST(int _score)
+{
+    mvprintw(height + 1, 2, "score: %d", _score);
+    refresh();
+}
 
 List::~List() {
     // delete all the nodes

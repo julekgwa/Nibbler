@@ -5,8 +5,7 @@
 #include "Snake.hpp"
 
 int main() {
-    WINDOW *window = init();
-    Snake *snake = new Snake(window);
+    Snake *snake = new Snake();
     while (snake->getMove() != 'q' && !snake->getCollision()) {
         snake->moveSnake();
         snake->wallCollision();
