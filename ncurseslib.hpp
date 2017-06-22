@@ -7,6 +7,10 @@
 
 #include <ncurses.h>
 #include <iostream>
+#include <sstream>
+#include <iomanip>
+#include <stdlib.h>
+#include <unistd.h>
 
 typedef struct Piece {
     struct Piece *next;
@@ -37,6 +41,7 @@ public:
     bool checkPos();
     Piece getOldTail();
     void printSnakePieces(Food *food, List snakes);
+    void displayScore(int _score, int _maxWidth, int _maxHeight);
 
 private:
     int _length;

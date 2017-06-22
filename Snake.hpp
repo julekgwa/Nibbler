@@ -14,9 +14,6 @@
 #include <unistd.h>
 #include "ncurseslib.hpp"
 #include <cstdlib>
-#include <stdlib.h>
-#include <sstream>
-#include <iomanip>
 
 class Snake {
 public:

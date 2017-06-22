@@ -84,6 +84,20 @@ void List::printSnakePieces(Food *food, List snakes) {
     }
 }
 
+void List::displayScore(int _score, int _maxWidth, int _maxHeight) {
+    std::stringstream score;
+
+    clear();
+    mvprintw((_maxHeight / 2), (_maxWidth / 2), "******************************");
+    score.str("");
+    score << "*Your final Score was:" << std::left << std::setfill('*') << std::setw(8) << _score;
+    mvprintw((_maxHeight / 2) + 1, (_maxWidth / 2), score.str().c_str());
+    mvprintw((_maxHeight / 2) + 2, (_maxWidth / 2), "******************************");
+    refresh();
+    usleep(1e+9 / 200);
+    return;
+}
+
 Piece List::getOldTail()
 {
     return _oldTail;
