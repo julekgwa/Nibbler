@@ -4,9 +4,9 @@
 
 #include "ncurseslib.hpp"
 
-WINDOW *init() {
+List::List() : _length(0), _head(NULL), _tail(NULL) {
     initscr();
-    int height, width, starty, startx;
+    int starty, startx;
     getmaxyx(stdscr, height, width);
     curs_set(0);
     starty = (height - (height - 2)) / 2; /* Calculating for a center placement */
@@ -14,18 +14,62 @@ WINDOW *init() {
     height -= 2;
     width -= 2;
     halfdelay(1);
-    WINDOW *window = newwin(height, width, starty, startx);
+    _window = newwin(height, width, starty, startx);
     refresh();
-    box(window, 0, 0);
-    wborder(window, '|', '|', '-', '-', '+', '+', '+', '+');
-    wrefresh(window);
-    return window;
+    box(_window, 0, 0);
+    wborder(_window, '|', '|', '-', '-', '+', '+', '+', '+');
+    wrefresh(_window);
+    keypad(this->getWindow(), true);
 }
 
-List::List() : _length(0), _head(NULL), _tail(NULL) {}
+WINDOW *List::getWindow()
+{
+    return _window;
+}
+
+void    List::OST(int _score)
+{
+    mvprintw(height + 1, 2, "score: %d", _score);
+    refresh();
+}
 
 List::~List() {
-    // delete all the nodes
+    endwin();// delete all the nodes
+}
+
+int List::getMove() {
+    int key = wgetch(this->getWindow());
+    switch (key) {
+        case KEY_UP:
+            if (_direction != DOWN)
+                _direction = UP;
+            break;
+        case KEY_DOWN:
+            if (_direction != UP)
+                _direction = DOWN;
+            break;
+        case KEY_LEFT:
+            if (_direction != RIGHT)
+                _direction = LEFT;
+            break;
+        case KEY_RIGHT:
+            if (_direction != LEFT)
+                _direction = RIGHT;
+            break;
+        case 'q':
+            _direction = 'q';
+    }
+    return _direction;
+}
+
+int     List::getWidth()
+{
+    return this->width;
+}
+
+int     List::getHeight()
+{
+    return this->height;
 }
 
 int List::length(){
@@ -65,18 +109,18 @@ void List::addHead(int x, int y, char c){
     _head = temp;
 }
 
-void List::printSnakePieces(Food *food, List snakes) {
-    char character = snakes.getPiece(1).character;
+void List::printSnakePieces(Food *food) {
+    char character = this->getPiece(1).character;
     int counter = 0;
-    Piece tail = snakes.getOldTail();
+    Piece tail = this->getOldTail();
     char brand[4] = {'C', 'T', 'W', '\0'};
     mvaddch(food->yLoc, food->xLoc, food->character);
     mvaddch(tail.yLoc, tail.xLoc, ' ');
-    for (int i = 1; i <= snakes.length(); ++i) {
-        Piece snake = snakes.getPiece(i);
+    for (int i = 1; i <= this->length(); ++i) {
+        Piece snake = this->getPiece(i);
         if (i > 1)
             character = '#';
-        if (snakes.length() - i >= 0 && snakes.length() - i <= 3 && counter < 3) {
+        if (this->length() - i >= 0 && this->length() - i <= 3 && counter < 3) {
             character = brand[counter++];
         }
         mvaddch(snake.yLoc, snake.xLoc, character);
@@ -115,4 +159,19 @@ void List::removeTail() {
     _length--;
     previous->next = NULL;
     _oldTail = *current;
+}
+
+List    *createList()
+{
+    return new List;
+}
+
+void    deleteList(List *list)
+{
+    delete list;
+}
+
+void    test()
+{
+    std::cout << "I'm killing it" << std::endl;
 }
