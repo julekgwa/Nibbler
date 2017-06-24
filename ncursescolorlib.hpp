@@ -37,6 +37,8 @@ class List
     void addHead(int, int, char);
     bool checkPos();
     Piece getOldTail();
+    int getHeight();
+    int getWidth();
     void printSnakePieces(Food *food, List snakes);
     void displayScore(int _score, int _maxWidth, int _maxHeight);
     WINDOW *getWindow(void);

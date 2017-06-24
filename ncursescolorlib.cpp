@@ -6,7 +6,7 @@
 List::List() : _length(0), _head(NULL), _tail(NULL)
 {
     initscr();
-        if (has_colors() == FALSE)
+    if (has_colors() == FALSE)
     {
         endwin();
         printf("Your terminal does not support color\n");
@@ -30,18 +30,20 @@ List::List() : _length(0), _head(NULL), _tail(NULL)
     bkgd(COLOR_PAIR(5));
     wbkgd(_window, '.' + COLOR_PAIR(5));
     refresh();
-    wattron(_window,COLOR_PAIR(2) + A_BOLD);
+    wattron(_window, COLOR_PAIR(2) + A_BOLD);
     box(_window, 0, 0);
     wborder(_window, '|', '|', '-', '-', '+', '+', '+', '+');
-    wattroff(_window,COLOR_PAIR(2) + A_BOLD);
+    wattroff(_window, COLOR_PAIR(2) + A_BOLD);
     wrefresh(_window);
 }
 
-List::List(List &rhs){
+List::List(List &rhs)
+{
     *this = rhs;
 }
 
-List::operator=(List &rhs){
+List::operator=(List &rhs)
+{
     this->_length = rhs.length();
     this->_window = rhs.getWindow();
     this->_height = rhs.getHeight();
@@ -71,7 +73,14 @@ int List::length()
 {
     return _length;
 }
-
+int List::getHeight()
+{
+    return (this->_height);
+}
+int List::getWidth()
+{
+    return (this->_width);
+}
 Piece List::getPiece(int pos)
 {
     Piece *tmp = new Piece;
@@ -121,16 +130,17 @@ void List::printSnakePieces(Food *food, List snakes)
     for (int i = 1; i <= snakes.length(); ++i)
     {
         Piece snake = snakes.getPiece(i);
-        if (i == 1){
+        if (i == 1)
+        {
             character = '#';
-            attron(COLOR_PAIR(4)  + A_BOLD);
+            attron(COLOR_PAIR(4) + A_BOLD);
             mvaddch(snake.yLoc, snake.xLoc, character);
-            attroff(COLOR_PAIR(4)  + A_BOLD);
+            attroff(COLOR_PAIR(4) + A_BOLD);
         }
         if (i > 1)
         {
             character = '#';
-            attron(COLOR_PAIR(1)  + A_BOLD);
+            attron(COLOR_PAIR(1) + A_BOLD);
             mvaddch(snake.yLoc, snake.xLoc, character);
             attroff(COLOR_PAIR(1) + A_BOLD);
         }
@@ -142,15 +152,15 @@ void List::displayScore(int _score, int _maxWidth, int _maxHeight)
 {
     std::stringstream score;
     clear();
-    mvprintw((_maxHeight / 2) - 1, (_maxWidth / 2)  - (5), "GAME OVER!");
+    mvprintw((_maxHeight / 2) - 1, (_maxWidth / 2) - (5), "GAME OVER!");
     attron(COLOR_PAIR(1));
-    mvprintw((_maxHeight / 2), (_maxWidth / 2) - (30 /2), "******************************");
+    mvprintw((_maxHeight / 2), (_maxWidth / 2) - (30 / 2), "******************************");
     attroff(COLOR_PAIR(1));
     score.str("");
     score << "*Your final Score was:" << std::left << std::setfill('*') << std::setw(8) << _score;
-    mvprintw((_maxHeight / 2) + 1, (_maxWidth / 2)  - (30 /2), score.str().c_str());
+    mvprintw((_maxHeight / 2) + 1, (_maxWidth / 2) - (30 / 2), score.str().c_str());
     attron(COLOR_PAIR(1));
-    mvprintw((_maxHeight / 2) + 2, (_maxWidth / 2) - (30 /2), "******************************");
+    mvprintw((_maxHeight / 2) + 2, (_maxWidth / 2) - (30 / 2), "******************************");
     attroff(COLOR_PAIR(1));
     refresh();
     usleep(1e+9 / 200);
