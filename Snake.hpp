@@ -4,15 +4,13 @@
 
 #ifndef NIBBLER_SNAKE_HPP
 #define NIBBLER_SNAKE_HPP
-#define UP 1
-#define DOWN 2
-#define RIGHT 4
-#define LEFT 3
 
 #include <iostream>
 #include <ncurses.h>
 #include <unistd.h>
-#include "ncurseslib.hpp"
+//#include "ncurseslib.hpp"
+#include "IList.hpp"
+#include <dlfcn.h>
 #include <cstdlib>
 
 class Snake {
@@ -35,12 +33,15 @@ public:
 
     void OST(void);
 
+    void dlerror_wrapper(void);
+
 
 private:
     int _maxHeight, _maxWidth, _direction, _score;
     bool _collision;
-    List *_snakes;
+    IList   *_snakes;
     Food *_food;
+    void    *_dl_handle;
 };
 
 

@@ -35,10 +35,12 @@ public:
     int     getWidth(void);
     int     getHeight(void);
     void    OST(int _score);
+    int     getMove();
 
 private:
     int _length;
     int height, width;
+    int _direction;
     Piece *_head, *_tail;
     Piece _oldTail;
     WINDOW *_window;

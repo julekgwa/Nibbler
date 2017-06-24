@@ -19,6 +19,7 @@ List::List() : _length(0), _head(NULL), _tail(NULL) {
     box(_window, 0, 0);
     wborder(_window, '|', '|', '-', '-', '+', '+', '+', '+');
     wrefresh(_window);
+    keypad(this->getWindow(), true);
 }
 
 WINDOW *List::getWindow()
@@ -33,7 +34,32 @@ void    List::OST(int _score)
 }
 
 List::~List() {
-    // delete all the nodes
+    endwin();// delete all the nodes
+}
+
+int List::getMove() {
+    int key = wgetch(this->getWindow());
+    switch (key) {
+        case KEY_UP:
+            if (_direction != DOWN)
+                _direction = UP;
+            break;
+        case KEY_DOWN:
+            if (_direction != UP)
+                _direction = DOWN;
+            break;
+        case KEY_LEFT:
+            if (_direction != RIGHT)
+                _direction = LEFT;
+            break;
+        case KEY_RIGHT:
+            if (_direction != LEFT)
+                _direction = RIGHT;
+            break;
+        case 'q':
+            _direction = 'q';
+    }
+    return _direction;
 }
 
 int     List::getWidth()

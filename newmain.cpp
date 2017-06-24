@@ -36,6 +36,17 @@ int main() {
 
     test();
 
+    IList   *(*createList)(void);
+
+    createList = (IList *(*)(void)) dlsym(dl_handle,"createList");
+
+    if (!createList)
+        dlerror_wrapper();
+
+    IList   *list = createList();
+
+    std::cout << list->getHeight() << std::endl;
+
     dlclose(dl_handle);
 
     return 0;

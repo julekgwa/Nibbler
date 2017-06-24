@@ -4,8 +4,8 @@ LIBFLAG = -Wall -Wextra -Werror
 all: $(NAME)
 
 $(NAME):
-	@g++ -Wall -Wextra -Werror main.cpp Snake.cpp ncurseslib.cpp -lncurses -o $(NAME)
 	@g++ $(LIBFLAG) -shared -fPIC -o ncurseslib.so ncurseslib.cpp -lncurses
+	@g++ -Wall -Wextra -Werror main.cpp Snake.cpp -o $(NAME)
 	@echo "\033[32mMade!. \033[0m"
 
 clean:

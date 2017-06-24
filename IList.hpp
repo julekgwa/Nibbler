@@ -5,6 +5,11 @@
 #ifndef NIBBLER_ILIST_H
 #define NIBBLER_ILIST_H
 
+#define UP 1
+#define DOWN 2
+#define RIGHT 4
+#define LEFT 3
+
 typedef struct Piece {
     struct Piece *next;
     int xLoc, yLoc;
@@ -36,6 +41,7 @@ public:
     virtual int     getWidth(void) = 0;
     virtual int     getHeight(void) = 0;
     virtual void    OST(int _score) = 0;
+    virtual int     getMove() = 0;
 };
 
 #endif //NIBBLER_ILIST_H
