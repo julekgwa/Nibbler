@@ -15,7 +15,7 @@ List::List() : _length(0), _head(NULL), _tail(NULL)
     int starty, startx;
     getmaxyx(stdscr, height, width);
     curs_set(0);
-    starty = (height - (height - 2)) / 2; /* Calculating for a center placement */
+    starty = (height - (height - 2)) / 2;
     startx = (width - (width - 2)) / 2;
     height -= 2;
     width -= 2;
