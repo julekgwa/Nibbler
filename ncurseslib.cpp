@@ -3,26 +3,15 @@
 //
 
 #include "ncurseslib.hpp"
-
-//WINDOW *init() {
-//    initscr();
-//    int height, width, starty, startx;
-//    getmaxyx(stdscr, height, width);
-//    curs_set(0);
-//    starty = (height - (height - 2)) / 2; /* Calculating for a center placement */
-//    startx = (width - (width - 2)) / 2;
-//    height -= 2;
-//    width -= 2;
-//    halfdelay(1);
-//    WINDOW *window = newwin(height, width, starty, startx);
-//    refresh();
-//    box(window, 0, 0);
-//    wborder(window, '|', '|', '-', '-', '+', '+', '+', '+');
-//    wrefresh(window);
-//    return window;
-//}
-List::List() : _length(0), _head(NULL), _tail(NULL) {
+List::List() : _length(0), _head(NULL), _tail(NULL)
+{
     initscr();
+    start_color();
+    init_pair(1, COLOR_RED, COLOR_RED);
+    init_pair(2, COLOR_GREEN, COLOR_YELLOW);
+    init_pair(3, COLOR_BLACK, COLOR_RED);
+    init_pair(4, COLOR_BLUE, COLOR_BLUE);
+    init_pair(5, COLOR_WHITE, COLOR_YELLOW);
     int starty, startx;
     getmaxyx(stdscr, height, width);
     curs_set(0);
@@ -32,36 +21,43 @@ List::List() : _length(0), _head(NULL), _tail(NULL) {
     width -= 2;
     halfdelay(1);
     _window = newwin(height, width, starty, startx);
+    bkgd(COLOR_PAIR(5));
+    wbkgd(_window, COLOR_PAIR(5));
     refresh();
+    wattron(_window,COLOR_PAIR(2) + A_BOLD);
     box(_window, 0, 0);
     wborder(_window, '|', '|', '-', '-', '+', '+', '+', '+');
+    wattroff(_window,COLOR_PAIR(2) + A_BOLD);
     wrefresh(_window);
 }
-
 WINDOW *List::getWindow()
 {
     return _window;
 }
 
-void    List::OST(int _score)
+void List::OST(int _score)
 {
     mvprintw(height + 1, 2, "score: %d", _score);
     refresh();
 }
 
-List::~List() {
+List::~List()
+{
     // delete all the nodes
 }
 
-int List::length(){
+int List::length()
+{
     return _length;
 }
 
-Piece List::getPiece(int pos) {
+Piece List::getPiece(int pos)
+{
     Piece *tmp = new Piece;
     tmp = _head;
     int count = 1;
-    while (count != pos && tmp != NULL) {
+    while (count != pos && tmp != NULL)
+    {
         count++;
         tmp = tmp->next;
     }
@@ -80,7 +76,8 @@ bool List::checkPos()
     return false;
 }
 
-void List::addHead(int x, int y, char c){
+void List::addHead(int x, int y, char c)
+{
     Piece *temp = new Piece;
     _length++;
     temp->yLoc = y;
@@ -90,34 +87,55 @@ void List::addHead(int x, int y, char c){
     _head = temp;
 }
 
-void List::printSnakePieces(Food *food, List snakes) {
+void List::printSnakePieces(Food *food, List snakes)
+{
     char character = snakes.getPiece(1).character;
-    int counter = 0;
     Piece tail = snakes.getOldTail();
-    char brand[4] = {'C', 'T', 'W', '\0'};
+    attron(COLOR_PAIR(2) + A_BOLD);
     mvaddch(food->yLoc, food->xLoc, food->character);
+    attroff(COLOR_PAIR(2) + A_BOLD);
+    attron(COLOR_PAIR(5));
     mvaddch(tail.yLoc, tail.xLoc, ' ');
-    for (int i = 1; i <= snakes.length(); ++i) {
+    attroff(COLOR_PAIR(5));
+    for (int i = 1; i <= snakes.length(); ++i)
+    {
         Piece snake = snakes.getPiece(i);
-        if (i > 1)
+        if (i == 1){
             character = '#';
-        if (snakes.length() - i >= 0 && snakes.length() - i <= 3 && counter < 3) {
-            character = brand[counter++];
+            attron(COLOR_PAIR(4)  + A_BOLD);
+            mvaddch(snake.yLoc, snake.xLoc, character);
+            attroff(COLOR_PAIR(4)  + A_BOLD);
         }
-        mvaddch(snake.yLoc, snake.xLoc, character);
+        if (i > 1)
+        {
+            character = '#';
+            attron(COLOR_PAIR(1)  + A_BOLD);
+            mvaddch(snake.yLoc, snake.xLoc, character);
+            attroff(COLOR_PAIR(1) + A_BOLD);
+        }
         refresh();
     }
 }
 
-void List::displayScore(int _score, int _maxWidth, int _maxHeight) {
+void List::displayScore(int _score, int _maxWidth, int _maxHeight)
+{
     std::stringstream score;
-
     clear();
+    if (has_colors() == FALSE)
+    {
+        endwin();
+        printf("Your terminal does not support color\n");
+        exit(1);
+    }
+    attron(COLOR_PAIR(1));
     mvprintw((_maxHeight / 2), (_maxWidth / 2), "******************************");
+    attroff(COLOR_PAIR(1));
     score.str("");
     score << "*Your final Score was:" << std::left << std::setfill('*') << std::setw(8) << _score;
     mvprintw((_maxHeight / 2) + 1, (_maxWidth / 2), score.str().c_str());
+    attron(COLOR_PAIR(1));
     mvprintw((_maxHeight / 2) + 2, (_maxWidth / 2), "******************************");
+    attroff(COLOR_PAIR(1));
     refresh();
     usleep(1e+9 / 200);
     return;
@@ -128,11 +146,13 @@ Piece List::getOldTail()
     return _oldTail;
 }
 
-void List::removeTail() {
+void List::removeTail()
+{
     Piece *current;
     Piece *previous;
     current = _head;
-    while (current->next != NULL) {
+    while (current->next != NULL)
+    {
         previous = current;
         current = current->next;
     }
