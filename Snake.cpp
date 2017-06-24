@@ -5,28 +5,31 @@
 #include "Snake.hpp"
 
 Snake::Snake() {
-    getmaxyx(_snakes.getWindow(), _maxHeight, _maxWidth);
-    _snakes.addHead((_maxWidth - 2) / 2 - 7, _maxHeight / 2, 'o');
-    _snakes.addHead((_maxWidth - 2) / 2 - 6, _maxHeight / 2, 'o');
-    _snakes.addHead((_maxWidth - 2) / 2 - 5, _maxHeight / 2, 'o');
-    _snakes.addHead((_maxWidth - 2) / 2 - 4, _maxHeight / 2, 'o');
-    _snakes.addHead((_maxWidth - 2) / 2 - 3, _maxHeight / 2, 'o');
-    _snakes.addHead((_maxWidth - 2) / 2 - 2, _maxHeight / 2, 'o');
-    _snakes.addHead((_maxWidth - 2) / 2 - 1, _maxHeight / 2, 'o');
-    keypad(_snakes.getWindow(), true);
+    _snakes = createList();
+    _maxHeight = _snakes->getHeight();
+    _maxWidth = _snakes->getWidth();
+    _snakes->addHead((_maxWidth - 2) / 2 - 7, _maxHeight / 2, 'o');
+    _snakes->addHead((_maxWidth - 2) / 2 - 6, _maxHeight / 2, 'o');
+    _snakes->addHead((_maxWidth - 2) / 2 - 5, _maxHeight / 2, 'o');
+    _snakes->addHead((_maxWidth - 2) / 2 - 4, _maxHeight / 2, 'o');
+    _snakes->addHead((_maxWidth - 2) / 2 - 3, _maxHeight / 2, 'o');
+    _snakes->addHead((_maxWidth - 2) / 2 - 2, _maxHeight / 2, 'o');
+    _snakes->addHead((_maxWidth - 2) / 2 - 1, _maxHeight / 2, 'o');
+    keypad(_snakes->getWindow(), true);
+    _food = new Food;
     generateFood();
     _direction = RIGHT;
-    this->_collision = false;
     _score = 0;
     _collision = false;
 }
 
 Snake::~Snake() {
-
+    delete _food;
+    endwin();
 }
 
 int Snake::getMove() {
-    int key = wgetch(_snakes.getWindow());
+    int key = wgetch(_snakes->getWindow());
     switch (key) {
         case KEY_UP:
             if (_direction != DOWN)
@@ -49,16 +52,16 @@ int Snake::getMove() {
 }
 
 void Snake::wallCollision() {
-    Piece snake = _snakes.getPiece(1);
+    Piece snake = _snakes->getPiece(1);
     if (snake.xLoc == _maxWidth || snake.yLoc == _maxHeight || snake.xLoc == 1 || snake.yLoc == 1) {
         _collision = true;
         return;
     }
-    _collision = _snakes.checkPos();
+    _collision = _snakes->checkPos();
 }
 
 void Snake::displayScore() {
-    _snakes.displayScore(_score, _maxWidth, _maxHeight);
+    _snakes->displayScore(_score, _maxWidth, _maxHeight);
     return;
 }
 
@@ -67,12 +70,11 @@ void Snake::OST() {
 //    mvprintw(0, 0, "Max w: %d | Max h: %d | F x: %d, F y: %d", _maxWidth, _maxHeight, _food->xLoc, _food->yLoc);
 //    mvprintw(_maxHeight + 1, 2, "score: %d", _score);
 //    refresh();
-    _snakes.OST(_score);
+    _snakes->OST(_score);
 }
 
 void Snake::generateFood() {
     srand(time(NULL)); // Seed the time
-    _food = new Food;
     int y = rand() % ((int) (_maxHeight - 2 + 1) + 2);
     int x = rand() % ((int) (_maxWidth - 2 + 1) + 2);
     if (y >= _maxHeight)
@@ -99,7 +101,7 @@ void Snake::generateFood() {
 // giving the head new location depending on the key press
 // see this answer on stackoverflow https://stackoverflow.com/questions/27906211/making-snake-game-in-cpp-movement-of-snake
 void Snake::moveSnake() {
-    Piece snake = _snakes.getPiece(1);
+    Piece snake = _snakes->getPiece(1);
     int x = snake.xLoc, y = snake.yLoc;
     if (_direction == UP) {
         y--;
@@ -110,14 +112,14 @@ void Snake::moveSnake() {
     } else {
         x++;
     }
-    _snakes.addHead(x, y, snake.character);
+    _snakes->addHead(x, y, snake.character);
     if (_food->xLoc == x && _food->yLoc == y) {
         generateFood();
         _score++;
     } else {
-        _snakes.removeTail();
+        _snakes->removeTail();
     }
-    _snakes.printSnakePieces(_food, _snakes);
+    _snakes->printSnakePieces(_food);
 }
 
 bool Snake::getCollision() {

@@ -39,7 +39,7 @@ public:
 private:
     int _maxHeight, _maxWidth, _direction, _score;
     bool _collision;
-    List _snakes;
+    List *_snakes;
     Food *_food;
 };
 

@@ -13,6 +13,6 @@ int main() {
         if (snake->getCollision())
             snake->displayScore();
     }
-    endwin();
+    delete  snake;
     return 0;
 }

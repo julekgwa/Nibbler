@@ -11,21 +11,10 @@
 #include <iomanip>
 #include <stdlib.h>
 #include <unistd.h>
+#include "IList.hpp"
 
-typedef struct Piece {
-    struct Piece *next;
-    int xLoc, yLoc;
-    char character;
-} Piece;
 
-typedef struct Food {
-    int xLoc, yLoc;
-    char character;
-}Food;
-
-WINDOW *init();
-
-class List {
+class List : public IList {
 public:
     List();
 
@@ -40,9 +29,11 @@ public:
     void addHead(int, int, char);
     bool checkPos();
     Piece getOldTail();
-    void printSnakePieces(Food *food, List snakes);
+    void printSnakePieces(Food *food);
     void displayScore(int _score, int _maxWidth, int _maxHeight);
     WINDOW *getWindow(void);
+    int     getWidth(void);
+    int     getHeight(void);
     void    OST(int _score);
 
 private:
@@ -52,6 +43,16 @@ private:
     Piece _oldTail;
     WINDOW *_window;
 };
+
+extern "C" {
+
+    List    *createList(void);
+
+    void    deleteList(List *list);
+
+    void    test(void);
+
+}
 
 
 #endif //NIBBLER_NCURSESLIB_HPP

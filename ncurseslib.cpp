@@ -4,23 +4,6 @@
 
 #include "ncurseslib.hpp"
 
-//WINDOW *init() {
-//    initscr();
-//    int height, width, starty, startx;
-//    getmaxyx(stdscr, height, width);
-//    curs_set(0);
-//    starty = (height - (height - 2)) / 2; /* Calculating for a center placement */
-//    startx = (width - (width - 2)) / 2;
-//    height -= 2;
-//    width -= 2;
-//    halfdelay(1);
-//    WINDOW *window = newwin(height, width, starty, startx);
-//    refresh();
-//    box(window, 0, 0);
-//    wborder(window, '|', '|', '-', '-', '+', '+', '+', '+');
-//    wrefresh(window);
-//    return window;
-//}
 List::List() : _length(0), _head(NULL), _tail(NULL) {
     initscr();
     int starty, startx;
@@ -51,6 +34,16 @@ void    List::OST(int _score)
 
 List::~List() {
     // delete all the nodes
+}
+
+int     List::getWidth()
+{
+    return this->width;
+}
+
+int     List::getHeight()
+{
+    return this->height;
 }
 
 int List::length(){
@@ -90,18 +83,18 @@ void List::addHead(int x, int y, char c){
     _head = temp;
 }
 
-void List::printSnakePieces(Food *food, List snakes) {
-    char character = snakes.getPiece(1).character;
+void List::printSnakePieces(Food *food) {
+    char character = this->getPiece(1).character;
     int counter = 0;
-    Piece tail = snakes.getOldTail();
+    Piece tail = this->getOldTail();
     char brand[4] = {'C', 'T', 'W', '\0'};
     mvaddch(food->yLoc, food->xLoc, food->character);
     mvaddch(tail.yLoc, tail.xLoc, ' ');
-    for (int i = 1; i <= snakes.length(); ++i) {
-        Piece snake = snakes.getPiece(i);
+    for (int i = 1; i <= this->length(); ++i) {
+        Piece snake = this->getPiece(i);
         if (i > 1)
             character = '#';
-        if (snakes.length() - i >= 0 && snakes.length() - i <= 3 && counter < 3) {
+        if (this->length() - i >= 0 && this->length() - i <= 3 && counter < 3) {
             character = brand[counter++];
         }
         mvaddch(snake.yLoc, snake.xLoc, character);
@@ -140,4 +133,19 @@ void List::removeTail() {
     _length--;
     previous->next = NULL;
     _oldTail = *current;
+}
+
+List    *createList()
+{
+    return new List;
+}
+
+void    deleteList(List *list)
+{
+    delete list;
+}
+
+void    test()
+{
+    std::cout << "I'm killing it" << std::endl;
 }
