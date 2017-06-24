@@ -13,10 +13,9 @@
 #include <unistd.h>
 #include "IList.hpp"
 
-
 class List : public IList {
 public:
-    List();
+    List(int x, int y);
 
     ~List();
 
@@ -37,6 +36,22 @@ public:
     void    OST(int _score);
     int     getMove();
 
+    class myYe: public std::exception
+    {
+        virtual const char* what() const throw()
+        {
+            return "My exception happened";
+        }
+    } ye;
+
+    class myXe: public std::exception
+    {
+        virtual const char* what() const throw()
+        {
+            return "My exception happened";
+        }
+    } xe;
+
 private:
     int _length;
     int height, width;
@@ -48,7 +63,7 @@ private:
 
 extern "C" {
 
-    List    *createList(void);
+    List    *createList(int x, int y);
 
     void    deleteList(List *list);
 

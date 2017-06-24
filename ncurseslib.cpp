@@ -4,10 +4,15 @@
 
 #include "ncurseslib.hpp"
 
-List::List() : _length(0), _head(NULL), _tail(NULL) {
-    initscr();
+List::List(int x, int y) : _length(0), _head(NULL), _tail(NULL) {
     int starty, startx;
     getmaxyx(stdscr, height, width);
+    if (x < 300 || x > width)
+    {
+        throw xe;
+    }
+    (void)y;
+    initscr();
     curs_set(0);
     starty = (height - (height - 2)) / 2; /* Calculating for a center placement */
     startx = (width - (width - 2)) / 2;
@@ -21,6 +26,8 @@ List::List() : _length(0), _head(NULL), _tail(NULL) {
     wrefresh(_window);
     keypad(this->getWindow(), true);
 }
+
+
 
 WINDOW *List::getWindow()
 {
@@ -161,9 +168,9 @@ void List::removeTail() {
     _oldTail = *current;
 }
 
-List    *createList()
+List    *createList(int x, int y)
 {
-    return new List;
+    return new List(x,y);
 }
 
 void    deleteList(List *list)
