@@ -2,8 +2,8 @@
 // Created by julekgwa on 2017/06/20.
 //
 
-#ifndef NIBBLER_NCURSESLIB_HPP
-#define NIBBLER_NCURSESLIB_HPP
+#ifndef NIBBLER_ListLIB_HPP
+#define NIBBLER_ListLIB_HPP
 
 #include <ncurses.h>
 #include <iostream>

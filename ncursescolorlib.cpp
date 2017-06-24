@@ -2,7 +2,7 @@
 // Created by julekgwa on 2017/06/20.
 //
 
-#include "ncurseslib.hpp"
+#include "Listlib.hpp"
 List::List() : _length(0), _head(NULL), _tail(NULL)
 {
     initscr();
