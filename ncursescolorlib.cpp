@@ -2,7 +2,7 @@
 // Created by julekgwa on 2017/06/20.
 //
 
-#include "Listlib.hpp"
+#include "ncursescolorlib.hpp"
 List::List() : _length(0), _head(NULL), _tail(NULL)
 {
     initscr();
@@ -42,15 +42,15 @@ List::List(List &rhs)
     *this = rhs;
 }
 
-List::operator=(List &rhs)
-{
-    this->_length = rhs.length();
-    this->_window = rhs.getWindow();
-    this->_height = rhs.getHeight();
-    this->_width = rhs.getWidth();
-    this->_oldTail = rhs.getOldTail();
-    return (*this);
-}
+//List List::operator=(List &rhs)
+//{
+//    this->_length = rhs.length();
+//    this->_window = rhs.getWindow();
+//    this->height = rhs.getHeight();
+//    this->width = rhs.getWidth();
+//    this->_oldTail = rhs.getOldTail();
+//    return (*this);
+//}
 WINDOW *List::getWindow()
 {
     return _window;
@@ -75,11 +75,11 @@ int List::length()
 }
 int List::getHeight()
 {
-    return (this->_height);
+    return (this->height);
 }
 int List::getWidth()
 {
-    return (this->_width);
+    return (this->width);
 }
 Piece List::getPiece(int pos)
 {

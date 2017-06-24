@@ -29,7 +29,7 @@ class List
   public:
     List();
     List(List &rhs);
-    List &operator=(List &rhs);
+//    List &operator=(List &rhs);
     ~List();
     void removeTail();
     int length();

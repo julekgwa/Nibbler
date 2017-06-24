@@ -4,7 +4,7 @@ LIBFLAG = -Wall -Wextra -Werror
 all: $(NAME)
 
 $(NAME):
-	@g++ -Wall -Wextra -Werror main.cpp Snake.cpp ncurseslib.cpp -lncurses -o $(NAME)
+	@g++ -Wall -Wextra -Werror main.cpp Snake.cpp ncursescolorlib.cpp -lncurses -o $(NAME)
 	@echo "\033[32mMade!. \033[0m"
 
 clean:
