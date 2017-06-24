@@ -1,6 +1,3 @@
-//
-// Created by julekgwa on 2017/06/20.
-//
 
 #ifndef NIBBLER_ListLIB_HPP
 #define NIBBLER_ListLIB_HPP
@@ -12,40 +9,40 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-typedef struct Piece {
+typedef struct Piece
+{
     struct Piece *next;
     int xLoc, yLoc;
     char character;
 } Piece;
 
-typedef struct Food {
+typedef struct Food
+{
     int xLoc, yLoc;
     char character;
-}Food;
+} Food;
 
 WINDOW *init();
 
-class List {
-public:
+class List
+{
+  public:
     List();
-
+    List(List &rhs);
+    List &operator=(List &rhs);
     ~List();
-
     void removeTail();
-
     int length();
-
     Piece getPiece(int pos);
-
     void addHead(int, int, char);
     bool checkPos();
     Piece getOldTail();
     void printSnakePieces(Food *food, List snakes);
     void displayScore(int _score, int _maxWidth, int _maxHeight);
     WINDOW *getWindow(void);
-    void    OST(int _score);
+    void OST(int _score);
 
-private:
+  private:
     int _length;
     int height, width;
     Piece *_head, *_tail;
@@ -53,5 +50,4 @@ private:
     WINDOW *_window;
 };
 
-
-#endif //NIBBLER_NCURSESLIB_HPP
+#endif

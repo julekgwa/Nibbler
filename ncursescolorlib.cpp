@@ -36,6 +36,19 @@ List::List() : _length(0), _head(NULL), _tail(NULL)
     wattroff(_window,COLOR_PAIR(2) + A_BOLD);
     wrefresh(_window);
 }
+
+List::List(List &rhs){
+    *this = rhs;
+}
+
+List::operator=(List &rhs){
+    this->_length = rhs.length();
+    this->_window = rhs.getWindow();
+    this->_height = rhs.getHeight();
+    this->_width = rhs.getWidth();
+    this->_oldTail = rhs.getOldTail();
+    return (*this);
+}
 WINDOW *List::getWindow()
 {
     return _window;
