@@ -71,7 +71,7 @@ int List::getMinY() {
 
 const char* List::myYtooBig::what() const throw()
 {
-    return "The height supplied is bigger than is possible in this window for ncurses lib.";
+    return "The height supplied is bigger than is possible in this window for SDL lib.";
 }
 
 List::myYtooBig::myYtooBig(void) {}
@@ -88,7 +88,7 @@ List::myYtooBig::~myYtooBig() throw() {}
 
 const char* List::myYtooSmall::what() const throw()
 {
-    return "The height supplied is too small for possible gameplay in the ncurses lib.";
+    return "The height supplied is too small for possible gameplay in the SDL lib.";
 }
 
 List::myYtooSmall::myYtooSmall(void) {}
@@ -105,7 +105,7 @@ List::myYtooSmall::~myYtooSmall() throw() {}
 
 const char* List::myXtooBig::what() const throw()
 {
-    return "The width supplied is bigger than is possible in this window for ncurses lib.";
+    return "The width supplied is bigger than is possible in this window for SDL lib.";
 }
 
 List::myXtooBig::myXtooBig(void) {}
@@ -122,7 +122,7 @@ List::myXtooBig::~myXtooBig() throw() {}
 
 const char* List::myXtooSmall::what() const throw()
 {
-    return "The width supplied is too small for possible gameplay in the ncurses lib.";
+    return "The width supplied is too small for possible gameplay in the SDL lib.";
 }
 
 List::myXtooSmall::myXtooSmall(void) {}
