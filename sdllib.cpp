@@ -25,6 +25,7 @@ List::List() : _length(0), _head(NULL), _tail(NULL) {
     _minX = 0;
     _eaten = false;
     _minY = 0;
+    _score = 0;
     _foodY = 34;
     _foodX = 78;
     collision = SDL_HasIntersection(&_food_rect, &_rect);
@@ -136,16 +137,17 @@ int List::getMove() {
         _direction = 'q';
     }
     printSnakePieces(_food);
-    TTF_Font *font = TTF_OpenFont("gomarice.ttf", 20);
-    std::string score_text = "score: " + std::to_string(34);
-    SDL_Color textColor = { 255, 255, 255, 0 };
-    SDL_Surface* textSurface = TTF_RenderText_Solid(font, score_text.c_str(), textColor);
-    SDL_Texture* text = SDL_CreateTextureFromSurface(_renderer, textSurface);
-    int text_width = textSurface->w;
-    int text_height = textSurface->h;
-    SDL_FreeSurface(textSurface);
-    SDL_Rect renderQuad = { 20, _height - 30, text_width, text_height };
-    SDL_RenderCopy(_renderer, text, NULL, &renderQuad);
+    OST(_score);
+//    TTF_Font *font = TTF_OpenFont("gomarice.ttf", 20);
+//    std::string score_text = "score: " + std::to_string(_score);
+//    SDL_Color textColor = { 255, 255, 255, 0 };
+//    SDL_Surface* textSurface = TTF_RenderText_Solid(font, score_text.c_str(), textColor);
+//    SDL_Texture* text = SDL_CreateTextureFromSurface(_renderer, textSurface);
+//    int text_width = textSurface->w;
+//    int text_height = textSurface->h;
+//    SDL_FreeSurface(textSurface);
+//    SDL_Rect renderQuad = { 20, _height - 30, text_width, text_height };
+//    SDL_RenderCopy(_renderer, text, NULL, &renderQuad);
 //    SDL_RenderFillRect(_renderer, &_rect);
     SDL_RenderPresent(_renderer);
     SDL_Delay(100);
@@ -164,7 +166,18 @@ SDL_bool List::test() {
     return SDL_IntersectRect(&_food_rect, &a, c);
 }
 
-void List::OST(int _score) {}
+void List::OST(int score) {
+    TTF_Font *font = TTF_OpenFont("gomarice.ttf", 20);
+    std::string score_text = "score: " + std::to_string(score);
+    SDL_Color textColor = { 255, 255, 255, 0 };
+    SDL_Surface* textSurface = TTF_RenderText_Solid(font, score_text.c_str(), textColor);
+    SDL_Texture* text = SDL_CreateTextureFromSurface(_renderer, textSurface);
+    int text_width = textSurface->w;
+    int text_height = textSurface->h;
+    SDL_FreeSurface(textSurface);
+    SDL_Rect renderQuad = { 20, _height - 30, text_width, text_height };
+    SDL_RenderCopy(_renderer, text, NULL, &renderQuad);
+}
 
 int List::getHeight() {
     return _height;
@@ -210,8 +223,8 @@ void List::drawFruit() {
     SDL_Rect rect;
     rect.x = _foodX;
     rect.y = _foodY;
-    rect.w = 18;
-    rect.h = 18;
+    rect.w = 20;
+    rect.h = 20;
     _food_rect = rect;
     SDL_RenderCopy(_renderer, _food_background_texture, NULL, &_food_rect);
 //    SDL_RenderPresent(_renderer);
@@ -234,7 +247,7 @@ void List::printSnakePieces(Food *food) {
     if (test()) {
         SDL_SetRenderDrawColor(_renderer, 255, 0, 0, 255);
         _food = generateFood();
-        _eaten = true;
+        _score++;
     } else
         removeTail();
     for (int i = 1; i <= _length; ++i) {
