@@ -13,6 +13,7 @@
 #include "IList.hpp"
 #include <SDL.h>
 #include <SDL_image.h>
+#include <SDL_ttf.h>
 
 
 class List : public IList {
@@ -54,7 +55,7 @@ public:
 
 private:
     int _length;
-    int _height, _width;
+    int _height, _width, _score;
     int _direction, _minX, _minY, _foodY, _foodX;
     Food *_food;
     Piece *_head, *_tail;
@@ -70,6 +71,7 @@ private:
     SDL_Event _event;
     SDL_bool collision;
     SDL_Rect _rect, _food_rect;
+    int rangeRandom(int min, int max);
 };
 
 extern "C" {

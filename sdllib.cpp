@@ -8,6 +8,7 @@ List::List() : _length(0), _head(NULL), _tail(NULL) {
     SDL_Init(SDL_INIT_EVERYTHING);
     //For loading PNG images
     IMG_Init(IMG_INIT_PNG);
+    TTF_Init();
     _background_surface = NULL;
     _background_texture = NULL;
     _sdl_window = SDL_CreateWindow("Nibbler retro", SDL_WINDOWPOS_UNDEFINED,
@@ -54,7 +55,7 @@ Piece List::getPiece(int pos) {
     return *tmp;
 }
 
-Food* List::generateFood() {
+Food *List::generateFood() {
     srand(time(NULL)); // Seed the time
     int y = rand() % ((int) (_height - 10 + 1) + 2);
     int x = rand() % ((int) (_width - 10 + 1) + 2);
@@ -69,10 +70,20 @@ Food* List::generateFood() {
         x = 3;
     _food->xLoc = x;
     _food->yLoc = y;
-    _foodX = x;
-    _foodY = y;
+    _foodX = rangeRandom(5, _width - 15);
+    _foodY = rangeRandom(5, _height - 15);
     _food->character = 'x';
     return _food;
+}
+
+int List::rangeRandom(int min, int max) {
+    int n = max - min + 1;
+    int remainder = RAND_MAX % n;
+    int x;
+    do {
+        x = rand();
+    } while (x >= RAND_MAX - remainder);
+    return min + x % n;
 }
 
 void List::addHead(int x, int y, char c) {
@@ -125,7 +136,17 @@ int List::getMove() {
         _direction = 'q';
     }
     printSnakePieces(_food);
-    SDL_RenderFillRect(_renderer, &_rect);
+    TTF_Font *font = TTF_OpenFont("gomarice.ttf", 20);
+    std::string score_text = "score: " + std::to_string(34);
+    SDL_Color textColor = { 255, 255, 255, 0 };
+    SDL_Surface* textSurface = TTF_RenderText_Solid(font, score_text.c_str(), textColor);
+    SDL_Texture* text = SDL_CreateTextureFromSurface(_renderer, textSurface);
+    int text_width = textSurface->w;
+    int text_height = textSurface->h;
+    SDL_FreeSurface(textSurface);
+    SDL_Rect renderQuad = { 20, _height - 30, text_width, text_height };
+    SDL_RenderCopy(_renderer, text, NULL, &renderQuad);
+//    SDL_RenderFillRect(_renderer, &_rect);
     SDL_RenderPresent(_renderer);
     SDL_Delay(100);
 //    }
@@ -189,8 +210,8 @@ void List::drawFruit() {
     SDL_Rect rect;
     rect.x = _foodX;
     rect.y = _foodY;
-    rect.w = 16;
-    rect.h = 16;
+    rect.w = 18;
+    rect.h = 18;
     _food_rect = rect;
     SDL_RenderCopy(_renderer, _food_background_texture, NULL, &_food_rect);
 //    SDL_RenderPresent(_renderer);
@@ -213,8 +234,6 @@ void List::printSnakePieces(Food *food) {
     if (test()) {
         SDL_SetRenderDrawColor(_renderer, 255, 0, 0, 255);
         _food = generateFood();
-//        _food_rect.x = 89;
-//        _food_rect.y = 67;
         _eaten = true;
     } else
         removeTail();
