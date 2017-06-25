@@ -8,7 +8,6 @@
 #include <iostream>
 #include <ncurses.h>
 #include <unistd.h>
-//#include "ncurseslib.hpp"
 #include "IList.hpp"
 #include <dlfcn.h>
 #include <cstdlib>
@@ -42,6 +41,7 @@ private:
     IList   *_snakes;
     Food *_food;
     void    *_dl_handle;
+    int     lib;
 
     Snake();
 };

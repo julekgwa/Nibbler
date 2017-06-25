@@ -179,6 +179,8 @@ int List::getMove() {
             break;
         case 'q':
             _direction = 'q';
+        case '1':
+            _direction = 'w';
     }
     return _direction;
 }

@@ -161,6 +161,8 @@ int List::getMove() {
             break;
         case 'q':
             _direction = 'q';
+        case '2':
+            _direction = 't';
     }
     return _direction;
 }
