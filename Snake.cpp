@@ -53,15 +53,48 @@ Snake::~Snake() {
     void    (*deleteList)(IList *);
 
     deleteList = (void (*)(IList *)) dlsym(_dl_handle,"deleteList");
-
     deleteList(_snakes);
+    dlclose(_dl_handle);
 }
 
 int Snake::getMove() {
     int    key = _snakes->getMove();
+    void    (*deleteList)(IList *);
 
     if  (key != 'q')
         _direction = key;
+    if (key == 'w')
+    {
+        _maxHeight = 60;
+        _maxWidth =270;
+        deleteList = (void (*)(IList *)) dlsym(_dl_handle,"deleteList");
+        deleteList(_snakes);
+        dlclose(_dl_handle);
+        _dl_handle = dlopen("ncurseslib.so", RTLD_LAZY | RTLD_LOCAL);
+        if (!_dl_handle)
+            dlerror_wrapper();
+        IList   *(*createList)(int x, int y);
+
+        createList = (IList *(*)(int x, int y)) dlsym(_dl_handle,"createList");
+
+        if (!createList)
+            dlerror_wrapper();
+
+        _snakes = createList(_maxWidth,_maxHeight);
+        _snakes->addHead((_maxWidth - 2) / 2 - 7, _maxHeight / 2, 'o');
+        _snakes->addHead((_maxWidth - 2) / 2 - 6, _maxHeight / 2, 'o');
+        _snakes->addHead((_maxWidth - 2) / 2 - 5, _maxHeight / 2, 'o');
+        _snakes->addHead((_maxWidth - 2) / 2 - 4, _maxHeight / 2, 'o');
+        _snakes->addHead((_maxWidth - 2) / 2 - 3, _maxHeight / 2, 'o');
+        _snakes->addHead((_maxWidth - 2) / 2 - 2, _maxHeight / 2, 'o');
+        _snakes->addHead((_maxWidth - 2) / 2 - 1, _maxHeight / 2, 'o');
+        _food = new Food;
+        generateFood();
+        _direction = RIGHT;
+        _score = 0;
+        _collision = false;
+    }
+
     return key;
 }
 
