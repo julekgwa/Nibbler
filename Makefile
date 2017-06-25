@@ -5,6 +5,7 @@ all: $(NAME)
 
 $(NAME):
 	@g++ $(LIBFLAG) -shared -fPIC -o ncurseslib.so ncurseslib.cpp -lncurses
+	@clang++ sdllib.cpp  -shared -fPIC -o sdllib.so `sdl2-config --cflags --libs` -lSDL2_image
 	@g++ -Wall -Wextra -Werror main.cpp Snake.cpp -o $(NAME)
 	@echo "\033[32mMade!. \033[0m"
 
@@ -13,10 +14,5 @@ clean:
 	@rm ncurseslib.so
 
 fclean: clean
-
-ncurseslib.so:
-	@clang++ $(LIBFLAG) -g -fPIC -c ncurseslib.cpp
-	@clang++ -shared -o libncurseslib.so -lncurses ncurseslib.o
-	@echo "\033[32mCreated ncurseslib library.\033[0m"
 
 re: fclean all

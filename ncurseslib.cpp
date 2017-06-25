@@ -19,12 +19,7 @@ List::List() : _length(0), _head(NULL), _tail(NULL) {
     box(_window, 0, 0);
     wborder(_window, '|', '|', '-', '-', '+', '+', '+', '+');
     wrefresh(_window);
-    keypad(this->getWindow(), true);
-}
-
-WINDOW *List::getWindow()
-{
-    return _window;
+    keypad(_window, true);
 }
 
 void    List::OST(int _score)
@@ -38,7 +33,7 @@ List::~List() {
 }
 
 int List::getMove() {
-    int key = wgetch(this->getWindow());
+    int key = wgetch(_window);
     switch (key) {
         case KEY_UP:
             if (_direction != DOWN)
@@ -62,6 +57,14 @@ int List::getMove() {
     return _direction;
 }
 
+int     List::getMinX() {
+    return _minX;
+}
+
+int     List::getMinY() {
+    return _minY;
+}
+
 int     List::getWidth()
 {
     return this->width;
@@ -70,6 +73,25 @@ int     List::getWidth()
 int     List::getHeight()
 {
     return this->height;
+}
+
+Food *List::generateFood() {
+    srand(time(NULL)); // Seed the time
+    int y = rand() % ((int) (height - 2 + 1) + 2);
+    int x = rand() % ((int) (width - 2 + 1) + 2);
+    if (y >= height)
+        y = width - 2;
+    if (y <= 1) {
+        y = 3;
+    }
+    if (x >= height)
+        x = width - 2;
+    if (x <= 1)
+        x = 3;
+    _food->xLoc = x;
+    _food->yLoc = y;
+    _food->character = 'x';
+    return _food;
 }
 
 int List::length(){

@@ -5,7 +5,7 @@
 #include "Snake.hpp"
 
 Snake::Snake() {
-    _dl_handle = dlopen("ncurseslib.so", RTLD_LAZY | RTLD_LOCAL);
+    _dl_handle = dlopen("sdllib.so", RTLD_LAZY | RTLD_LOCAL);
 
     if (!_dl_handle)
         dlerror_wrapper();
@@ -20,6 +20,16 @@ Snake::Snake() {
     _snakes = createList();
     _maxHeight = _snakes->getHeight();
     _maxWidth = _snakes->getWidth();
+    _minHeight = _snakes->getMinY();
+    _minWidth = _snakes->getMinX();
+    _snakes->addHead((_maxWidth - 2) / 2 - 15, _maxHeight / 2, 'o');
+    _snakes->addHead((_maxWidth - 2) / 2 - 14, _maxHeight / 2, 'o');
+    _snakes->addHead((_maxWidth - 2) / 2 - 13, _maxHeight / 2, 'o');
+    _snakes->addHead((_maxWidth - 2) / 2 - 12, _maxHeight / 2, 'o');
+    _snakes->addHead((_maxWidth - 2) / 2 - 11, _maxHeight / 2, 'o');
+    _snakes->addHead((_maxWidth - 2) / 2 - 10, _maxHeight / 2, 'o');
+    _snakes->addHead((_maxWidth - 2) / 2 - 9, _maxHeight / 2, 'o');
+    _snakes->addHead((_maxWidth - 2) / 2 - 8, _maxHeight / 2, 'o');
     _snakes->addHead((_maxWidth - 2) / 2 - 7, _maxHeight / 2, 'o');
     _snakes->addHead((_maxWidth - 2) / 2 - 6, _maxHeight / 2, 'o');
     _snakes->addHead((_maxWidth - 2) / 2 - 5, _maxHeight / 2, 'o');
@@ -27,8 +37,7 @@ Snake::Snake() {
     _snakes->addHead((_maxWidth - 2) / 2 - 3, _maxHeight / 2, 'o');
     _snakes->addHead((_maxWidth - 2) / 2 - 2, _maxHeight / 2, 'o');
     _snakes->addHead((_maxWidth - 2) / 2 - 1, _maxHeight / 2, 'o');
-    _food = new Food;
-    generateFood();
+//    _food = _snakes->generateFood();
     _direction = RIGHT;
     _score = 0;
     _collision = false;
@@ -41,7 +50,7 @@ void    Snake::dlerror_wrapper(void)
 }
 
 Snake::~Snake() {
-    delete _food;
+//    delete _food;
 
     void    (*deleteList)(IList *);
 
@@ -60,7 +69,7 @@ int Snake::getMove() {
 
 void Snake::wallCollision() {
     Piece snake = _snakes->getPiece(1);
-    if (snake.xLoc == _maxWidth || snake.yLoc == _maxHeight || snake.xLoc == 1 || snake.yLoc == 1) {
+    if (snake.xLoc >= _maxWidth || snake.yLoc >= _maxHeight || snake.xLoc < _minWidth || snake.yLoc < _minHeight) {
         _collision = true;
         return;
     }
@@ -78,24 +87,24 @@ void Snake::OST() {
     _snakes->OST(_score);
 }
 
-void Snake::generateFood() {
-    srand(time(NULL)); // Seed the time
-    int y = rand() % ((int) (_maxHeight - 2 + 1) + 2);
-    int x = rand() % ((int) (_maxWidth - 2 + 1) + 2);
-    if (y >= _maxHeight)
-        y = _maxHeight - 2;
-    if (y <= 1) {
-        y = 3;
-    }
-    if (x >= _maxWidth)
-        x = _maxWidth - 2;
-    if (x <= 1)
-        x = 3;
-    _food->xLoc = x;
-    _food->yLoc = y;
-    _food->character = 'x';
-
-}
+//void Snake::generateFood() {
+//    srand(time(NULL)); // Seed the time
+//    int y = rand() % ((int) (_maxHeight - 2 + 1) + 2);
+//    int x = rand() % ((int) (_maxWidth - 2 + 1) + 2);
+//    if (y >= _maxHeight)
+//        y = _maxHeight - 2;
+//    if (y <= 1) {
+//        y = 3;
+//    }
+//    if (x >= _maxWidth)
+//        x = _maxWidth - 2;
+//    if (x <= 1)
+//        x = 3;
+//    _food->xLoc = x;
+//    _food->yLoc = y;
+//    _food->character = 'x';
+//
+//}
 
 // we'll move the snake by removing the tail and adding a new head each time
 // giving the head new location depending on the key press
@@ -114,7 +123,7 @@ void Snake::moveSnake() {
     }
     _snakes->addHead(x, y, snake.character);
     if (_food->xLoc == x && _food->yLoc == y) {
-        generateFood();
+//        _food = _snakes->generateFood();
         _score++;
     } else {
         _snakes->removeTail();

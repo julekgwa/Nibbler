@@ -31,17 +31,20 @@ public:
     Piece getOldTail();
     void printSnakePieces(Food *food);
     void displayScore(int _score, int _maxWidth, int _maxHeight);
-    WINDOW *getWindow(void);
     int     getWidth(void);
     int     getHeight(void);
     void    OST(int _score);
     int     getMove();
+    int getMinX();
+    Food *generateFood();
+    int getMinY();
 
 private:
     int _length;
-    int height, width;
+    int height, width, _minX, _minY;
     int _direction;
     Piece *_head, *_tail;
+    Food *_food;
     Piece _oldTail;
     WINDOW *_window;
 };

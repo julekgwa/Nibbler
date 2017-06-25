@@ -1,0 +1,92 @@
+//
+// Created by Junius LEKGWARA on 2017/06/24.
+//
+
+#ifndef NIBBLER_STDLLIB_HPP
+#define NIBBLER_STDLLIB_HPP
+
+#include <iostream>
+#include <sstream>
+#include <iomanip>
+#include <stdlib.h>
+#include <unistd.h>
+#include "IList.hpp"
+#include <SDL.h>
+#include <SDL_image.h>
+
+
+class List : public IList {
+public:
+    List();
+
+    ~List();
+
+    void removeTail();
+
+    int length();
+
+    Piece getPiece(int pos);
+
+    void addHead(int, int, char);
+
+    bool checkPos();
+
+    Piece getOldTail();
+
+    void printSnakePieces(Food *food);
+
+    void displayScore(int _score, int _maxWidth, int _maxHeight);
+
+    int getWidth(void);
+
+    int getHeight(void);
+
+    void OST(int _score);
+
+    int getMove();
+
+    void draw(Piece piece);
+
+    void drawFruit(void);
+
+    void setTexture(SDL_Texture *);
+
+    SDL_Texture *getTexture();
+
+    int getMinX();
+    Food *generateFood();
+
+    int getMinY();
+
+    SDL_bool test();
+
+private:
+    int _length;
+    int _height, _width;
+    int _direction, _minX, _minY;
+    Food *_food;
+    Piece *_head, *_tail;
+    Piece _oldTail;
+    SDL_Surface *_background_surface;
+    SDL_Surface *_food_background_surface;
+    SDL_Texture *_food_background_texture;
+    SDL_Texture *_background_texture;
+    SDL_Window *_sdl_window;
+    bool _quit;
+    const Uint8 *_keystate;
+    SDL_Renderer *_renderer;
+    SDL_Event _event;
+    SDL_bool collision;
+    SDL_Rect _rect, _food_rect;
+};
+
+extern "C" {
+
+List *createList(void);
+
+void deleteList(List *list);
+
+}
+
+
+#endif //NIBBLER_STDLLIB_HPP

@@ -25,7 +25,7 @@ public:
 
     void moveSnake(void);
 
-    void generateFood(void);
+//    void generateFood(void);
 
     void wallCollision(void);
 
@@ -37,7 +37,7 @@ public:
 
 
 private:
-    int _maxHeight, _maxWidth, _direction, _score;
+    int _maxHeight, _maxWidth, _minHeight,_minWidth, _direction, _score;
     bool _collision;
     IList   *_snakes;
     Food *_food;
