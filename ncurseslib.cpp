@@ -48,13 +48,11 @@ List::List(int x, int y) throw (myYtooBig, myYtooSmall,myXtooBig,myXtooSmall) : 
     keypad(_window, true);
 }
 
-int     List::getMinWidth(void)
-{
+int     List::getMinX(){
     return this->_minWidth;
 }
 
-int     List::getMinHeight(void)
-{
+int     List::getMinY(){
     return this->_minHeight;
 }
 

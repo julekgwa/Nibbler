@@ -9,7 +9,7 @@ Snake::Snake() {
 }
 
 Snake::Snake(int maxX, int maxY) {
-    _dl_handle = dlopen("ncurseslib.so", RTLD_LAZY | RTLD_LOCAL);
+    _dl_handle = dlopen("sdllib.so", RTLD_LAZY | RTLD_LOCAL);
     (void)maxX;
     (void)maxY;
     if (!_dl_handle)
@@ -25,8 +25,8 @@ Snake::Snake(int maxX, int maxY) {
     _snakes = createList(maxX,maxY);
     _maxHeight = _snakes->getHeight();
     _maxWidth = _snakes->getWidth();
-    _minHeight = _snakes->getMinHeight();
-    _minWidth = _snakes->getMinWidth();
+    _minHeight = _snakes->getMinY();
+    _minWidth = _snakes->getMinX();
     _snakes->addHead((_maxWidth - 2) / 2 - 7, _maxHeight / 2, 'o');
     _snakes->addHead((_maxWidth - 2) / 2 - 6, _maxHeight / 2, 'o');
     _snakes->addHead((_maxWidth - 2) / 2 - 5, _maxHeight / 2, 'o');

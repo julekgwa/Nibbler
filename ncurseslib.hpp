@@ -32,8 +32,8 @@ public:
     void displayScore(int _score, int _maxWidth, int _maxHeight);
     int     getWidth(void);
     int     getHeight(void);
-    int     getMinWidth(void);
-    int     getMinHeight(void);
+    int     getMinX(void);
+    int     getMinY(void);
     void    OST(int _score);
     int     getMove();
 
