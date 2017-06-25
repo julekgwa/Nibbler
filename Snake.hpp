@@ -15,7 +15,7 @@
 
 class Snake {
 public:
-    Snake();
+    Snake(int maxX, int maxY);
 
     ~Snake();
 
@@ -37,11 +37,13 @@ public:
 
 
 private:
-    int _maxHeight, _maxWidth, _direction, _score;
+    int _maxHeight, _maxWidth, _minHeight, _minWidth, _direction, _score;
     bool _collision;
     IList   *_snakes;
     Food *_food;
     void    *_dl_handle;
+
+    Snake();
 };
 
 

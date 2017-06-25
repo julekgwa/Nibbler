@@ -5,21 +5,28 @@
 #include "Snake.hpp"
 
 Snake::Snake() {
-    _dl_handle = dlopen("ncurseslib.so", RTLD_LAZY | RTLD_LOCAL);
 
+}
+
+Snake::Snake(int maxX, int maxY) {
+    _dl_handle = dlopen("ncurseslib.so", RTLD_LAZY | RTLD_LOCAL);
+    (void)maxX;
+    (void)maxY;
     if (!_dl_handle)
         dlerror_wrapper();
 
-    IList   *(*createList)(void);
+    IList   *(*createList)(int x, int y);
 
-    createList = (IList *(*)(void)) dlsym(_dl_handle,"createList");
+    createList = (IList *(*)(int x, int y)) dlsym(_dl_handle,"createList");
 
     if (!createList)
         dlerror_wrapper();
 
-    _snakes = createList();
+    _snakes = createList(maxX,maxY);
     _maxHeight = _snakes->getHeight();
     _maxWidth = _snakes->getWidth();
+    _minHeight = _snakes->getMinHeight();
+    _minWidth = _snakes->getMinWidth();
     _snakes->addHead((_maxWidth - 2) / 2 - 7, _maxHeight / 2, 'o');
     _snakes->addHead((_maxWidth - 2) / 2 - 6, _maxHeight / 2, 'o');
     _snakes->addHead((_maxWidth - 2) / 2 - 5, _maxHeight / 2, 'o');
@@ -60,7 +67,7 @@ int Snake::getMove() {
 
 void Snake::wallCollision() {
     Piece snake = _snakes->getPiece(1);
-    if (snake.xLoc == _maxWidth || snake.yLoc == _maxHeight || snake.xLoc == 1 || snake.yLoc == 1) {
+    if (snake.xLoc >= _maxWidth || snake.yLoc >= _maxHeight || snake.xLoc <= _minWidth || snake.yLoc <= _minHeight) {
         _collision = true;
         return;
     }

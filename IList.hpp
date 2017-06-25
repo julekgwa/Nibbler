@@ -37,11 +37,12 @@ public:
     virtual Piece getOldTail() = 0;
     virtual void printSnakePieces(Food *food) = 0;
     virtual void displayScore(int _score, int _maxWidth, int _maxHeight) = 0;
-    virtual WINDOW *getWindow(void) = 0;
     virtual int     getWidth(void) = 0;
     virtual int     getHeight(void) = 0;
     virtual void    OST(int _score) = 0;
     virtual int     getMove() = 0;
+    virtual int     getMinWidth(void) = 0;
+    virtual int     getMinHeight(void) = 0;
 };
 
 #endif //NIBBLER_ILIST_H

@@ -13,10 +13,9 @@
 #include <unistd.h>
 #include "IList.hpp"
 
-
 class List : public IList {
 public:
-    List();
+    List(int x, int y) throw (myYtooBig, myYtooSmall,myXtooBig,myXtooSmall);
 
     ~List();
 
@@ -31,24 +30,68 @@ public:
     Piece getOldTail();
     void printSnakePieces(Food *food);
     void displayScore(int _score, int _maxWidth, int _maxHeight);
-    WINDOW *getWindow(void);
     int     getWidth(void);
     int     getHeight(void);
+    int     getMinWidth(void);
+    int     getMinHeight(void);
     void    OST(int _score);
     int     getMove();
 
+    class myYtooBig: public std::exception
+    {
+        public:
+            myYtooBig(void);
+            virtual ~myYtooBig() throw();
+            virtual const char* what() const throw();
+            myYtooBig(myYtooBig const &);
+            myYtooBig   &operator=(myYtooBig const &);
+    };
+
+    class myYtooSmall: public std::exception
+    {
+    public:
+        virtual const char* what() const throw();
+        myYtooSmall(void);
+        virtual ~myYtooSmall() throw();
+        myYtooSmall(myYtooSmall const &);
+        myYtooSmall   &operator=(myYtooSmall const &);
+    };
+
+    class myXtooBig: public std::exception
+    {
+    public:
+        virtual const char* what() const throw();
+        myXtooBig(void);
+        virtual ~myXtooBig() throw();
+        myXtooBig(myXtooBig const &);
+        myXtooBig   &operator=(myXtooBig const &);
+    };
+
+    class myXtooSmall: public std::exception
+    {
+    public:
+        virtual const char* what() const throw();
+        myXtooSmall(void);
+        virtual ~myXtooSmall() throw();
+        myXtooSmall(myXtooSmall const &);
+        myXtooSmall   &operator=(myXtooSmall const &);
+    };
+
 private:
     int _length;
-    int height, width;
+    int height, width,_minHeight, _minWidth;
     int _direction;
     Piece *_head, *_tail;
     Piece _oldTail;
     WINDOW *_window;
+    List();
+    List    &operator=(List &);
+    List(List &);
 };
 
 extern "C" {
 
-    List    *createList(void);
+    List    *createList(int x, int y);
 
     void    deleteList(List *list);
 
