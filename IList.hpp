@@ -43,7 +43,7 @@ public:
     virtual int     getMove() = 0;
     virtual int getMinX() = 0;
     virtual int getMinY() = 0;
-    virtual Food *generateFood() = 0;
+//    virtual Food *generateFood() = 0;
 };
 
 #endif //NIBBLER_ILIST_H

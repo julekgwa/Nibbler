@@ -20,14 +20,10 @@ List::List() : _length(0), _head(NULL), _tail(NULL) {
     _quit = false;
     setTexture(_background_texture);
     _food = new Food;
-    _food->yLoc = 32;
-    _food->xLoc = 15;
     _width = 800;
     _minX = 0;
     _minY = 0;
-//    _food_rect = NULL;
-//    _rect = NULL;
-//    collision = SDL_HasIntersection(&_food_rect, &_rect);
+    collision = SDL_HasIntersection(&_food_rect, &_rect);
     _height = 600;
     _direction = RIGHT;
 }
@@ -105,7 +101,7 @@ int List::getMove() {
         _direction = 'q';
     }
     printSnakePieces(_food);
-//    drawFruit();
+    drawFruit();
 //    if (test()) {
 //        SDL_SetRenderDrawColor(_renderer, 255, 0, 0, 255);
 //        printf("Yessss");
@@ -114,10 +110,10 @@ int List::getMove() {
 //        SDL_SetRenderDrawColor(_renderer, 0, 255, 0, 255);
 //    SDL_RenderFillRect(_renderer, &_food_rect);
 //
-    if (test()) {
-        SDL_SetRenderDrawColor(_renderer, 255, 0, 0, 255);
-        printf("NNNNNNN");
-    }
+//    if (test()) {
+//        SDL_SetRenderDrawColor(_renderer, 255, 0, 0, 255);
+//        printf("NNNNNNN");
+//    }
 //    else
 //        SDL_SetRenderDrawColor(_renderer, 0, 0, 255, 255);
     SDL_RenderFillRect(_renderer, &_rect);
@@ -135,6 +131,7 @@ SDL_bool List::test() {
     a.y = piece.yLoc;
     a.h = 8;
     a.w = 8;
+
 
     return SDL_IntersectRect(&_food_rect, &a, c);
 }
@@ -182,8 +179,8 @@ void List::draw(Piece piece) {
 }
 
 void List::drawFruit() {
-    _food_rect.x = _food->xLoc;
-    _food_rect.y = _food->yLoc;
+    _food_rect.x = _width / 2;
+    _food_rect.y = _height / 2;
     _food_rect.w = 8;
     _food_rect.h = 8;
     SDL_RenderCopy(_renderer, _food_background_texture, NULL, &_food_rect);
@@ -204,36 +201,15 @@ void List::printSnakePieces(Food *food) {
     }
     addHead(x, y, snake.character);
     drawFruit();
-//    if (test()) {
-//        SDL_SetRenderDrawColor(_renderer, 255, 0, 0, 255);
-//        printf("NNNNNNN");
-//        generateFood();
-//    } else
+    if (test()) {
+        SDL_SetRenderDrawColor(_renderer, 255, 0, 0, 255);
+        printf("NNNNNNN");
+    } else
         removeTail();
     for (int i = 1; i <= _length; ++i) {
         draw(getPiece(i));
     }
 }
-
-Food *List::generateFood() {
-    srand(time(NULL)); // Seed the time
-    int y = rand() % ((int) (_height - 2 + 1) + 2);
-    int x = rand() % ((int) (_width - 2 + 1) + 2);
-    if (y >= _height)
-        y = _width - 2;
-    if (y <= 1) {
-        y = 3;
-    }
-    if (x >= _height)
-        x = _width - 2;
-    if (x <= 1)
-        x = 3;
-    _food->xLoc = x;
-    _food->yLoc = y;
-    _food->character = 'x';
-    return _food;
-}
-
 
 void List::displayScore(int _score, int _maxWidth, int _maxHeight) {
 

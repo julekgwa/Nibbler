@@ -28,36 +28,20 @@ public:
     Piece getPiece(int pos);
 
     void addHead(int, int, char);
-
     bool checkPos();
-
     Piece getOldTail();
-
     void printSnakePieces(Food *food);
-
     void displayScore(int _score, int _maxWidth, int _maxHeight);
-
-    int getWidth(void);
-
-    int getHeight(void);
-
-    void OST(int _score);
-
-    int getMove();
-
+    int     getWidth(void);
+    int     getHeight(void);
+    void    OST(int _score);
+    int     getMove();
     void draw(Piece piece);
-
     void drawFruit(void);
-
     void setTexture(SDL_Texture *);
-
     SDL_Texture *getTexture();
-
     int getMinX();
-    Food *generateFood();
-
     int getMinY();
-
     SDL_bool test();
 
 private:
@@ -82,9 +66,9 @@ private:
 
 extern "C" {
 
-List *createList(void);
+List    *createList(void);
 
-void deleteList(List *list);
+void    deleteList(List *list);
 
 }
 

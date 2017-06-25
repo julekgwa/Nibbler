@@ -37,7 +37,8 @@ Snake::Snake() {
     _snakes->addHead((_maxWidth - 2) / 2 - 3, _maxHeight / 2, 'o');
     _snakes->addHead((_maxWidth - 2) / 2 - 2, _maxHeight / 2, 'o');
     _snakes->addHead((_maxWidth - 2) / 2 - 1, _maxHeight / 2, 'o');
-//    _food = _snakes->generateFood();
+    _food = new Food;
+    generateFood();
     _direction = RIGHT;
     _score = 0;
     _collision = false;
@@ -50,7 +51,7 @@ void    Snake::dlerror_wrapper(void)
 }
 
 Snake::~Snake() {
-//    delete _food;
+    delete _food;
 
     void    (*deleteList)(IList *);
 
@@ -87,24 +88,24 @@ void Snake::OST() {
     _snakes->OST(_score);
 }
 
-//void Snake::generateFood() {
-//    srand(time(NULL)); // Seed the time
-//    int y = rand() % ((int) (_maxHeight - 2 + 1) + 2);
-//    int x = rand() % ((int) (_maxWidth - 2 + 1) + 2);
-//    if (y >= _maxHeight)
-//        y = _maxHeight - 2;
-//    if (y <= 1) {
-//        y = 3;
-//    }
-//    if (x >= _maxWidth)
-//        x = _maxWidth - 2;
-//    if (x <= 1)
-//        x = 3;
-//    _food->xLoc = x;
-//    _food->yLoc = y;
-//    _food->character = 'x';
-//
-//}
+void Snake::generateFood() {
+    srand(time(NULL)); // Seed the time
+    int y = rand() % ((int) (_maxHeight - 2 + 1) + 2);
+    int x = rand() % ((int) (_maxWidth - 2 + 1) + 2);
+    if (y >= _maxHeight)
+        y = _maxHeight - 2;
+    if (y <= 1) {
+        y = 3;
+    }
+    if (x >= _maxWidth)
+        x = _maxWidth - 2;
+    if (x <= 1)
+        x = 3;
+    _food->xLoc = x;
+    _food->yLoc = y;
+    _food->character = 'x';
+
+}
 
 // we'll move the snake by removing the tail and adding a new head each time
 // giving the head new location depending on the key press
@@ -123,7 +124,7 @@ void Snake::moveSnake() {
     }
     _snakes->addHead(x, y, snake.character);
     if (_food->xLoc == x && _food->yLoc == y) {
-//        _food = _snakes->generateFood();
+        generateFood();
         _score++;
     } else {
         _snakes->removeTail();

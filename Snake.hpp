@@ -25,7 +25,7 @@ public:
 
     void moveSnake(void);
 
-//    void generateFood(void);
+    void generateFood(void);
 
     void wallCollision(void);
 
