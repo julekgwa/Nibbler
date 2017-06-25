@@ -37,7 +37,7 @@ public:
     int     getHeight(void);
     void    OST(int _score);
     int     getMove();
-    void draw(Piece piece);
+    void draw(Piece piece,SDL_Texture *);
     void drawFruit(void);
     void setTexture(SDL_Texture *);
     SDL_Texture *getTexture();
@@ -61,9 +61,11 @@ private:
     Piece *_head, *_tail;
     Piece _oldTail;
     SDL_Surface *_background_surface;
+    SDL_Surface *_head_surface;
     SDL_Surface *_food_background_surface;
     SDL_Texture *_food_background_texture;
     SDL_Texture *_background_texture;
+    SDL_Texture *_head_texture;
     SDL_Window *_sdl_window;
     bool _quit, _eaten;
     const Uint8 *_keystate;

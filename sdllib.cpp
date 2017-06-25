@@ -15,9 +15,11 @@ List::List() : _length(0), _head(NULL), _tail(NULL) {
                                    SDL_WINDOWPOS_UNDEFINED, 800, 600, SDL_WINDOW_SHOWN);
     _renderer = SDL_CreateRenderer(_sdl_window, -1, SDL_RENDERER_PRESENTVSYNC);
     _background_surface = SDL_LoadBMP("grass.bmp");
+    _head_surface = SDL_LoadBMP("head.bmp");
     _food_background_surface = SDL_LoadBMP("apple.bmp");
     _background_texture = SDL_CreateTextureFromSurface(_renderer, _background_surface);
     _food_background_texture = SDL_CreateTextureFromSurface(_renderer, _food_background_surface);
+    _head_texture = SDL_CreateTextureFromSurface(_renderer, _head_surface);
     _quit = false;
     setTexture(_background_texture);
     _food = new Food;
@@ -209,14 +211,22 @@ int List::length() {
     return _length;
 }
 
-void List::draw(Piece piece) {
-//    SDL_Rect rect;
+//void List::draw(Piece piece) {
+////    SDL_Rect rect;
+//    _rect.x = piece.xLoc;
+//    _rect.y = piece.yLoc;
+//    _rect.w = 16;
+//    _rect.h = 16;
+//    SDL_RenderCopy(_renderer, _background_texture, NULL, &_rect);
+////    SDL_RenderPresent(_renderer);
+//}
+
+void List::draw(Piece piece, SDL_Texture *texture) {
     _rect.x = piece.xLoc;
     _rect.y = piece.yLoc;
     _rect.w = 16;
     _rect.h = 16;
-    SDL_RenderCopy(_renderer, _background_texture, NULL, &_rect);
-//    SDL_RenderPresent(_renderer);
+    SDL_RenderCopy(_renderer, texture, NULL, &_rect);
 }
 
 void List::drawFruit() {
@@ -231,6 +241,7 @@ void List::drawFruit() {
 }
 
 void List::printSnakePieces(Food *food) {
+    SDL_Texture *texture = _head_texture;
     Piece snake = getPiece(1);
     int x = snake.xLoc, y = snake.yLoc;
     if (_direction == UP) {
@@ -251,7 +262,9 @@ void List::printSnakePieces(Food *food) {
     } else
         removeTail();
     for (int i = 1; i <= _length; ++i) {
-        draw(getPiece(i));
+        if (i > 1)
+            texture = _background_texture;
+        draw(getPiece(i), texture);
     }
 }
 
