@@ -138,7 +138,13 @@ List::myXtooSmall& List::myXtooSmall::operator=(myXtooSmall const &) {
 List::myXtooSmall::~myXtooSmall() throw() {}
 
 List::~List() {
-
+    //Deleting the texture
+    SDL_DestroyTexture(_background_texture);
+    SDL_DestroyRenderer(_renderer);
+    SDL_DestroyWindow(_sdl_window);
+    //For quitting IMG systems
+    IMG_Quit();
+    SDL_Quit();
 }
 
 Piece List::getPiece(int pos) {
@@ -231,6 +237,8 @@ int List::getMove() {
     } else if (_keystate[SDL_SCANCODE_Q]) {
         _quit = true;
         _direction = 'q';
+    } else if (_keystate[SDL_SCANCODE_1]) {
+        _direction = 'w';
     }
     printSnakePieces(_food);
     OST(_score);
