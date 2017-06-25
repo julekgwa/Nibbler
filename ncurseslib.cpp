@@ -4,15 +4,34 @@
 
 #include "ncurseslib.hpp"
 
-List::List(int x, int y) : _length(0), _head(NULL), _tail(NULL) {
+List::List() {}
+
+List::List(int x, int y) throw (myYtooBig, myYtooSmall,myXtooBig,myXtooSmall) : _length(0), _head(NULL), _tail(NULL) {
     int starty, startx;
-    getmaxyx(stdscr, height, width);
-    if (x < 300 || x > width)
-    {
-        throw xe;
-    }
-    (void)y;
     initscr();
+    getmaxyx(stdscr, height, width);
+    if (x > width)
+    {
+        endwin();
+        throw myXtooBig();
+    }
+    else if (x < 100)
+    {
+        endwin();
+        throw myXtooSmall();
+    }
+    else if (y < 10)
+    {
+        endwin();
+        throw myYtooSmall();
+    }
+    else if (y > height)
+    {
+        endwin();
+        throw myYtooBig();
+    }
+    height = y;
+    width = x;
     curs_set(0);
     starty = (height - (height - 2)) / 2; /* Calculating for a center placement */
     startx = (width - (width - 2)) / 2;
@@ -24,19 +43,86 @@ List::List(int x, int y) : _length(0), _head(NULL), _tail(NULL) {
     box(_window, 0, 0);
     wborder(_window, '|', '|', '-', '-', '+', '+', '+', '+');
     wrefresh(_window);
-    keypad(this->getWindow(), true);
+    keypad(_window, true);
 }
 
+List    &List::operator=(List &) {
+    return *this;
+}
 
+List::List(List &) {}
 
-WINDOW *List::getWindow()
+const char* List::myYtooBig::what() const throw()
 {
-    return _window;
+    return "The height supplied is bigger than is possible in this window for ncurses lib.";
 }
+
+List::myYtooBig::myYtooBig(void) {}
+
+List::myYtooBig::myYtooBig(myYtooBig const &obj) {
+    *this = obj;
+}
+
+List::myYtooBig& List::myYtooBig::operator=(myYtooBig const &) {
+    return *this;
+}
+//
+List::myYtooBig::~myYtooBig() throw() {}
+
+const char* List::myYtooSmall::what() const throw()
+{
+    return "The height supplied is too small for possible gameplay in the ncurses lib.";
+}
+
+List::myYtooSmall::myYtooSmall(void) {}
+
+List::myYtooSmall::myYtooSmall(myYtooSmall const &obj) {
+    *this = obj;
+}
+
+List::myYtooSmall& List::myYtooSmall::operator=(myYtooSmall const &) {
+    return *this;
+}
+
+List::myYtooSmall::~myYtooSmall() throw() {}
+
+const char* List::myXtooBig::what() const throw()
+{
+    return "The width supplied is bigger than is possible in this window for ncurses lib.";
+}
+
+List::myXtooBig::myXtooBig(void) {}
+
+List::myXtooBig::myXtooBig(myXtooBig const &obj) {
+    *this = obj;
+}
+
+List::myXtooBig& List::myXtooBig::operator=(myXtooBig const &) {
+    return *this;
+}
+
+List::myXtooBig::~myXtooBig() throw() {}
+
+const char* List::myXtooSmall::what() const throw()
+{
+    return "The width supplied is too small for possible gameplay in the ncurses lib.";
+}
+
+List::myXtooSmall::myXtooSmall(void) {}
+
+List::myXtooSmall::myXtooSmall(myXtooSmall const &obj) {
+    *this = obj;
+}
+
+List::myXtooSmall& List::myXtooSmall::operator=(myXtooSmall const &) {
+    return *this;
+}
+
+List::myXtooSmall::~myXtooSmall() throw() {}
 
 void    List::OST(int _score)
 {
-    mvprintw(height + 1, 2, "score: %d", _score);
+    mvprintw(height + 1, 2, "score: %d :: %d :: %d", _score,width,height);
     refresh();
 }
 
@@ -45,7 +131,7 @@ List::~List() {
 }
 
 int List::getMove() {
-    int key = wgetch(this->getWindow());
+    int key = wgetch(_window);
     switch (key) {
         case KEY_UP:
             if (_direction != DOWN)
