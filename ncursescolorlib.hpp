@@ -1,24 +1,17 @@
 //
-// Created by Junius LEKGWARA on 2017/06/24.
+// Created by julekgwa on 2017/06/20.
 //
 
-#ifndef NIBBLER_STDLLIB_HPP
-#define NIBBLER_STDLLIB_HPP
+#ifndef NIBBLER_NCURSESCOLORLIB_HPP
+#define NIBBLER_NCURSESCOLORLIB_HPP
 
+#include <ncurses.h>
 #include <iostream>
 #include <sstream>
 #include <iomanip>
 #include <stdlib.h>
 #include <unistd.h>
 #include "IList.hpp"
-#include <SDL.h>
-#include <SDL_image.h>
-#include <SDL_ttf.h>
-#define MAXWIDTH 1000
-#define MAXHEIGHT 800
-#define MINWIDTH 800
-#define MINHEIGHT 600
-
 
 class List : public IList {
 public:
@@ -39,32 +32,19 @@ public:
     void displayScore(int _score, int _maxWidth, int _maxHeight);
     int     getWidth(void);
     int     getHeight(void);
+    int     getMinWidth(void);
+    int     getMinHeight(void);
     void    OST(int _score);
     int     getMove();
-    void draw(Piece piece,SDL_Texture *);
-    void drawFruit(void);
-    void setTexture(SDL_Texture *);
-    SDL_Texture *getTexture();
-    Food *generateFood();
-    int getMinX();
-    int getMinY();
-    SDL_bool test();
-    void setFoodX(int x);
-
-    void setFoodY(int y);
-
-    int getFoodX();
-
-    int getFoodY();
 
     class myYtooBig: public std::exception
     {
-    public:
-        myYtooBig(void);
-        virtual ~myYtooBig() throw();
-        virtual const char* what() const throw();
-        myYtooBig(myYtooBig const &);
-        myYtooBig   &operator=(myYtooBig const &);
+        public:
+            myYtooBig(void);
+            virtual ~myYtooBig() throw();
+            virtual const char* what() const throw();
+            myYtooBig(myYtooBig const &);
+            myYtooBig   &operator=(myYtooBig const &);
     };
 
     class myYtooSmall: public std::exception
@@ -99,25 +79,11 @@ public:
 
 private:
     int _length;
-    int _height, _width, _score;
-    int _direction, _minX, _minY, _foodY, _foodX;
-    Food *_food;
+    int height, width,_minHeight, _minWidth;
+    int _direction;
     Piece *_head, *_tail;
     Piece _oldTail;
-    SDL_Surface *_background_surface;
-    SDL_Surface *_head_surface;
-    SDL_Surface *_food_background_surface;
-    SDL_Texture *_food_background_texture;
-    SDL_Texture *_background_texture;
-    SDL_Texture *_head_texture;
-    SDL_Window *_sdl_window;
-    bool _quit, _eaten;
-    const Uint8 *_keystate;
-    SDL_Renderer *_renderer;
-    SDL_Event _event;
-    SDL_bool collision;
-    SDL_Rect _rect, _food_rect;
-    int rangeRandom(int min, int max);
+    WINDOW *_window;
     List();
     List    &operator=(List &);
     List(List &);
@@ -125,11 +91,13 @@ private:
 
 extern "C" {
 
-List    *createList(int x, int y);
+    List    *createList(int x, int y);
 
-void    deleteList(List *list);
+    void    deleteList(List *list);
+
+    void    test(void);
 
 }
 
 
-#endif //NIBBLER_STDLLIB_HPP
+#endif //NIBBLER_NCURSESLIB_HPP

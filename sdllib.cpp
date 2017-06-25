@@ -4,15 +4,37 @@
 
 #include "sdllib.hpp"
 
-List::List() : _length(0), _head(NULL), _tail(NULL) {
+List::List() {}
+
+List::List(int x, int y) throw (myYtooBig, myYtooSmall,myXtooBig,myXtooSmall) : _length(0), _head(NULL), _tail(NULL) {
+
+    if (x > MAXWIDTH)
+    {
+        throw myXtooBig();
+    }
+    else if (x < MINWIDTH)
+    {
+        throw myXtooSmall();
+    }
+    else if (y < MINHEIGHT)
+    {
+        throw myYtooSmall();
+    }
+    else if (y > MAXHEIGHT)
+    {
+        throw myYtooBig();
+    }
+
     SDL_Init(SDL_INIT_EVERYTHING);
     //For loading PNG images
     IMG_Init(IMG_INIT_PNG);
     TTF_Init();
     _background_surface = NULL;
     _background_texture = NULL;
+    _width = x;
+    _height = y;
     _sdl_window = SDL_CreateWindow("Nibbler retro", SDL_WINDOWPOS_UNDEFINED,
-                                   SDL_WINDOWPOS_UNDEFINED, 800, 600, SDL_WINDOW_SHOWN);
+                                   SDL_WINDOWPOS_UNDEFINED, _width, _height, SDL_WINDOW_SHOWN);
     _renderer = SDL_CreateRenderer(_sdl_window, -1, SDL_RENDERER_PRESENTVSYNC);
     _background_surface = SDL_LoadBMP("grass.bmp");
     _head_surface = SDL_LoadBMP("head.bmp");
@@ -23,7 +45,6 @@ List::List() : _length(0), _head(NULL), _tail(NULL) {
     _quit = false;
     setTexture(_background_texture);
     _food = new Food;
-    _width = 800;
     _minX = 0;
     _eaten = false;
     _minY = 0;
@@ -31,9 +52,14 @@ List::List() : _length(0), _head(NULL), _tail(NULL) {
     _foodY = 34;
     _foodX = 78;
     collision = SDL_HasIntersection(&_food_rect, &_rect);
-    _height = 600;
     _direction = RIGHT;
 }
+
+List    &List::operator=(List &) {
+    return *this;
+}
+
+List::List(List &) {}
 
 int List::getMinX() {
     return _minX;
@@ -42,6 +68,74 @@ int List::getMinX() {
 int List::getMinY() {
     return _minY;
 }
+
+const char* List::myYtooBig::what() const throw()
+{
+    return "The height supplied is bigger than is possible in this window for SDL lib.";
+}
+
+List::myYtooBig::myYtooBig(void) {}
+
+List::myYtooBig::myYtooBig(myYtooBig const &obj) {
+    *this = obj;
+}
+
+List::myYtooBig& List::myYtooBig::operator=(myYtooBig const &) {
+    return *this;
+}
+//
+List::myYtooBig::~myYtooBig() throw() {}
+
+const char* List::myYtooSmall::what() const throw()
+{
+    return "The height supplied is too small for possible gameplay in the SDL lib.";
+}
+
+List::myYtooSmall::myYtooSmall(void) {}
+
+List::myYtooSmall::myYtooSmall(myYtooSmall const &obj) {
+    *this = obj;
+}
+
+List::myYtooSmall& List::myYtooSmall::operator=(myYtooSmall const &) {
+    return *this;
+}
+
+List::myYtooSmall::~myYtooSmall() throw() {}
+
+const char* List::myXtooBig::what() const throw()
+{
+    return "The width supplied is bigger than is possible in this window for SDL lib.";
+}
+
+List::myXtooBig::myXtooBig(void) {}
+
+List::myXtooBig::myXtooBig(myXtooBig const &obj) {
+    *this = obj;
+}
+
+List::myXtooBig& List::myXtooBig::operator=(myXtooBig const &) {
+    return *this;
+}
+
+List::myXtooBig::~myXtooBig() throw() {}
+
+const char* List::myXtooSmall::what() const throw()
+{
+    return "The width supplied is too small for possible gameplay in the SDL lib.";
+}
+
+List::myXtooSmall::myXtooSmall(void) {}
+
+List::myXtooSmall::myXtooSmall(myXtooSmall const &obj) {
+    *this = obj;
+}
+
+List::myXtooSmall& List::myXtooSmall::operator=(myXtooSmall const &) {
+    return *this;
+}
+
+List::myXtooSmall::~myXtooSmall() throw() {}
 
 List::~List() {
 
@@ -280,8 +374,8 @@ SDL_Texture *List::getTexture() {
     return _background_texture;
 }
 
-List *createList() {
-    return new List;
+List *createList(int x, int y) {
+    return new List(x, y);
 }
 
 void deleteList(List *list) {
