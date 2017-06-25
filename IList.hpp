@@ -41,6 +41,8 @@ public:
     virtual int     getHeight(void) = 0;
     virtual void    OST(int _score) = 0;
     virtual int     getMove() = 0;
+    virtual int     getMinWidth(void) = 0;
+    virtual int     getMinHeight(void) = 0;
 };
 
 #endif //NIBBLER_ILIST_H

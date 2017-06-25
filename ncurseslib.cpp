@@ -32,6 +32,8 @@ List::List(int x, int y) throw (myYtooBig, myYtooSmall,myXtooBig,myXtooSmall) : 
     }
     height = y;
     width = x;
+    _minHeight = 1;
+    _minWidth = 1;
     curs_set(0);
     starty = (height - (height - 2)) / 2; /* Calculating for a center placement */
     startx = (width - (width - 2)) / 2;
@@ -44,6 +46,16 @@ List::List(int x, int y) throw (myYtooBig, myYtooSmall,myXtooBig,myXtooSmall) : 
     wborder(_window, '|', '|', '-', '-', '+', '+', '+', '+');
     wrefresh(_window);
     keypad(_window, true);
+}
+
+int     List::getMinWidth(void)
+{
+    return this->_minWidth;
+}
+
+int     List::getMinHeight(void)
+{
+    return this->_minHeight;
 }
 
 List    &List::operator=(List &) {

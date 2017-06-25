@@ -32,6 +32,8 @@ public:
     void displayScore(int _score, int _maxWidth, int _maxHeight);
     int     getWidth(void);
     int     getHeight(void);
+    int     getMinWidth(void);
+    int     getMinHeight(void);
     void    OST(int _score);
     int     getMove();
 
@@ -77,7 +79,7 @@ public:
 
 private:
     int _length;
-    int height, width;
+    int height, width,_minHeight, _minWidth;
     int _direction;
     Piece *_head, *_tail;
     Piece _oldTail;
