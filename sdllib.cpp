@@ -24,8 +24,8 @@ List::List() : _length(0), _head(NULL), _tail(NULL) {
     _minX = 0;
     _eaten = false;
     _minY = 0;
-    _foodY = 0;
-    _foodX = 0;
+    _foodY = 34;
+    _foodX = 78;
     collision = SDL_HasIntersection(&_food_rect, &_rect);
     _height = 600;
     _direction = RIGHT;
@@ -56,8 +56,8 @@ Piece List::getPiece(int pos) {
 
 Food* List::generateFood() {
     srand(time(NULL)); // Seed the time
-    int y = rand() % ((int) (_height - 2 + 1) + 2);
-    int x = rand() % ((int) (_width - 2 + 1) + 2);
+    int y = rand() % ((int) (_height - 10 + 1) + 2);
+    int x = rand() % ((int) (_width - 10 + 1) + 2);
     if (y >= _height)
         y = _width - 2;
     if (y <= 1) {
@@ -140,8 +140,6 @@ SDL_bool List::test() {
     a.y = piece.yLoc;
     a.h = 8;
     a.w = 8;
-
-
     return SDL_IntersectRect(&_food_rect, &a, c);
 }
 
@@ -188,10 +186,12 @@ void List::draw(Piece piece) {
 }
 
 void List::drawFruit() {
-    _food_rect.x = _width / 2;
-    _food_rect.y = _height / 2;
-    _food_rect.w = 16;
-    _food_rect.h = 16;
+    SDL_Rect rect;
+    rect.x = _foodX;
+    rect.y = _foodY;
+    rect.w = 16;
+    rect.h = 16;
+    _food_rect = rect;
     SDL_RenderCopy(_renderer, _food_background_texture, NULL, &_food_rect);
 //    SDL_RenderPresent(_renderer);
 }
@@ -213,6 +213,8 @@ void List::printSnakePieces(Food *food) {
     if (test()) {
         SDL_SetRenderDrawColor(_renderer, 255, 0, 0, 255);
         _food = generateFood();
+//        _food_rect.x = 89;
+//        _food_rect.y = 67;
         _eaten = true;
     } else
         removeTail();
