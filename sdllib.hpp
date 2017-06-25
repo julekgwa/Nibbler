@@ -14,11 +14,15 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
+#define MAXWIDTH 1000
+#define MAXHEIGHT 800
+#define MINWIDTH 800
+#define MINHEIGHT 600
 
 
 class List : public IList {
 public:
-    List();
+    List(int x, int y) throw (myYtooBig, myYtooSmall,myXtooBig,myXtooSmall);
 
     ~List();
 
@@ -53,6 +57,46 @@ public:
 
     int getFoodY();
 
+    class myYtooBig: public std::exception
+    {
+    public:
+        myYtooBig(void);
+        virtual ~myYtooBig() throw();
+        virtual const char* what() const throw();
+        myYtooBig(myYtooBig const &);
+        myYtooBig   &operator=(myYtooBig const &);
+    };
+
+    class myYtooSmall: public std::exception
+    {
+    public:
+        virtual const char* what() const throw();
+        myYtooSmall(void);
+        virtual ~myYtooSmall() throw();
+        myYtooSmall(myYtooSmall const &);
+        myYtooSmall   &operator=(myYtooSmall const &);
+    };
+
+    class myXtooBig: public std::exception
+    {
+    public:
+        virtual const char* what() const throw();
+        myXtooBig(void);
+        virtual ~myXtooBig() throw();
+        myXtooBig(myXtooBig const &);
+        myXtooBig   &operator=(myXtooBig const &);
+    };
+
+    class myXtooSmall: public std::exception
+    {
+    public:
+        virtual const char* what() const throw();
+        myXtooSmall(void);
+        virtual ~myXtooSmall() throw();
+        myXtooSmall(myXtooSmall const &);
+        myXtooSmall   &operator=(myXtooSmall const &);
+    };
+
 private:
     int _length;
     int _height, _width, _score;
@@ -74,11 +118,14 @@ private:
     SDL_bool collision;
     SDL_Rect _rect, _food_rect;
     int rangeRandom(int min, int max);
+    List();
+    List    &operator=(List &);
+    List(List &);
 };
 
 extern "C" {
 
-List    *createList(void);
+List    *createList(int x, int y);
 
 void    deleteList(List *list);
 
