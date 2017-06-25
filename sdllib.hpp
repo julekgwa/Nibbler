@@ -40,14 +40,22 @@ public:
     void drawFruit(void);
     void setTexture(SDL_Texture *);
     SDL_Texture *getTexture();
+    Food *generateFood();
     int getMinX();
     int getMinY();
     SDL_bool test();
+    void setFoodX(int x);
+
+    void setFoodY(int y);
+
+    int getFoodX();
+
+    int getFoodY();
 
 private:
     int _length;
     int _height, _width;
-    int _direction, _minX, _minY;
+    int _direction, _minX, _minY, _foodY, _foodX;
     Food *_food;
     Piece *_head, *_tail;
     Piece _oldTail;
@@ -56,7 +64,7 @@ private:
     SDL_Texture *_food_background_texture;
     SDL_Texture *_background_texture;
     SDL_Window *_sdl_window;
-    bool _quit;
+    bool _quit, _eaten;
     const Uint8 *_keystate;
     SDL_Renderer *_renderer;
     SDL_Event _event;

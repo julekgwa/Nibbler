@@ -22,7 +22,10 @@ List::List() : _length(0), _head(NULL), _tail(NULL) {
     _food = new Food;
     _width = 800;
     _minX = 0;
+    _eaten = false;
     _minY = 0;
+    _foodY = 0;
+    _foodX = 0;
     collision = SDL_HasIntersection(&_food_rect, &_rect);
     _height = 600;
     _direction = RIGHT;
@@ -49,6 +52,27 @@ Piece List::getPiece(int pos) {
         tmp = tmp->next;
     }
     return *tmp;
+}
+
+Food* List::generateFood() {
+    srand(time(NULL)); // Seed the time
+    int y = rand() % ((int) (_height - 2 + 1) + 2);
+    int x = rand() % ((int) (_width - 2 + 1) + 2);
+    if (y >= _height)
+        y = _width - 2;
+    if (y <= 1) {
+        y = 3;
+    }
+    if (x >= _height)
+        x = _width - 2;
+    if (x <= 1)
+        x = 3;
+    _food->xLoc = x;
+    _food->yLoc = y;
+    _foodX = x;
+    _foodY = y;
+    _food->character = 'x';
+    return _food;
 }
 
 void List::addHead(int x, int y, char c) {
@@ -101,21 +125,6 @@ int List::getMove() {
         _direction = 'q';
     }
     printSnakePieces(_food);
-    drawFruit();
-//    if (test()) {
-//        SDL_SetRenderDrawColor(_renderer, 255, 0, 0, 255);
-//        printf("Yessss");
-//    }
-//    else
-//        SDL_SetRenderDrawColor(_renderer, 0, 255, 0, 255);
-//    SDL_RenderFillRect(_renderer, &_food_rect);
-//
-//    if (test()) {
-//        SDL_SetRenderDrawColor(_renderer, 255, 0, 0, 255);
-//        printf("NNNNNNN");
-//    }
-//    else
-//        SDL_SetRenderDrawColor(_renderer, 0, 0, 255, 255);
     SDL_RenderFillRect(_renderer, &_rect);
     SDL_RenderPresent(_renderer);
     SDL_Delay(100);
@@ -172,8 +181,8 @@ void List::draw(Piece piece) {
 //    SDL_Rect rect;
     _rect.x = piece.xLoc;
     _rect.y = piece.yLoc;
-    _rect.w = 8;
-    _rect.h = 8;
+    _rect.w = 16;
+    _rect.h = 16;
     SDL_RenderCopy(_renderer, _background_texture, NULL, &_rect);
 //    SDL_RenderPresent(_renderer);
 }
@@ -181,8 +190,8 @@ void List::draw(Piece piece) {
 void List::drawFruit() {
     _food_rect.x = _width / 2;
     _food_rect.y = _height / 2;
-    _food_rect.w = 8;
-    _food_rect.h = 8;
+    _food_rect.w = 16;
+    _food_rect.h = 16;
     SDL_RenderCopy(_renderer, _food_background_texture, NULL, &_food_rect);
 //    SDL_RenderPresent(_renderer);
 }
@@ -191,19 +200,20 @@ void List::printSnakePieces(Food *food) {
     Piece snake = getPiece(1);
     int x = snake.xLoc, y = snake.yLoc;
     if (_direction == UP) {
-        y = y - 8;
+        y = y - 16;
     } else if (_direction == DOWN) {
-        y = y + 8;
+        y = y + 16;
     } else if (_direction == LEFT) {
-        x = x - 8;
+        x = x - 16;
     } else {
-        x = x + 8;
+        x = x + 16;
     }
     addHead(x, y, snake.character);
     drawFruit();
     if (test()) {
         SDL_SetRenderDrawColor(_renderer, 255, 0, 0, 255);
-        printf("NNNNNNN");
+        _food = generateFood();
+        _eaten = true;
     } else
         removeTail();
     for (int i = 1; i <= _length; ++i) {
