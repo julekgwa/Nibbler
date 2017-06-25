@@ -27,7 +27,12 @@ int main(int ac, char *argv[]) {
         }
         delete  snake;
 
-    } catch (std::exception &e)
+    }
+    catch (std::invalid_argument &e)
+    {
+        std::cout << "Values passed must be integers" << std::endl;
+    }
+    catch (std::exception &e)
     {
         std::cout << e.what() << std::endl;
     }

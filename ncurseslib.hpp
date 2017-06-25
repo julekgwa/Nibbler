@@ -15,7 +15,7 @@
 
 class List : public IList {
 public:
-    List(int x, int y);
+    List(int x, int y) throw (myYtooBig, myYtooSmall,myXtooBig,myXtooSmall);
 
     ~List();
 
@@ -30,27 +30,50 @@ public:
     Piece getOldTail();
     void printSnakePieces(Food *food);
     void displayScore(int _score, int _maxWidth, int _maxHeight);
-    WINDOW *getWindow(void);
     int     getWidth(void);
     int     getHeight(void);
     void    OST(int _score);
     int     getMove();
 
-    class myYe: public std::exception
+    class myYtooBig: public std::exception
     {
-        virtual const char* what() const throw()
-        {
-            return "My exception happened";
-        }
-    } ye;
+        public:
+            myYtooBig(void);
+            virtual ~myYtooBig() throw();
+            virtual const char* what() const throw();
+            myYtooBig(myYtooBig const &);
+            myYtooBig   &operator=(myYtooBig const &);
+    };
 
-    class myXe: public std::exception
+    class myYtooSmall: public std::exception
     {
-        virtual const char* what() const throw()
-        {
-            return "My exception happened";
-        }
-    } xe;
+    public:
+        virtual const char* what() const throw();
+        myYtooSmall(void);
+        virtual ~myYtooSmall() throw();
+        myYtooSmall(myYtooSmall const &);
+        myYtooSmall   &operator=(myYtooSmall const &);
+    };
+
+    class myXtooBig: public std::exception
+    {
+    public:
+        virtual const char* what() const throw();
+        myXtooBig(void);
+        virtual ~myXtooBig() throw();
+        myXtooBig(myXtooBig const &);
+        myXtooBig   &operator=(myXtooBig const &);
+    };
+
+    class myXtooSmall: public std::exception
+    {
+    public:
+        virtual const char* what() const throw();
+        myXtooSmall(void);
+        virtual ~myXtooSmall() throw();
+        myXtooSmall(myXtooSmall const &);
+        myXtooSmall   &operator=(myXtooSmall const &);
+    };
 
 private:
     int _length;
@@ -59,6 +82,9 @@ private:
     Piece *_head, *_tail;
     Piece _oldTail;
     WINDOW *_window;
+    List();
+    List    &operator=(List &);
+    List(List &);
 };
 
 extern "C" {
