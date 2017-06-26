@@ -57,6 +57,18 @@ sudo apt-get install libsdl2-2.0 libsdl2-dev libsdl2-image-2.0-0 libsdl2-image-d
 
 [Allegro5 installation steps](https://wiki.allegro.cc/index.php?title=Ubuntu_and_Allegro_5)
 
+#### Download
+
+```
+git clone https://github.com/julekgwa/Nibbler.git
+cd Nibbler && make
+```
+##### run Nibbler
+// window x height
+```
+./Nibbler 800 600
+```
+
 
 ## Authors
 
