@@ -210,7 +210,6 @@ bool List::checkPos() {
 }
 
 int List::getMove() {
-//    while (!_quit) {
     while (SDL_PollEvent(&_event) > 0) {
         if (_event.type == SDL_QUIT) {
             _quit = true;
@@ -242,20 +241,8 @@ int List::getMove() {
     }
     printSnakePieces(_food);
     OST(_score);
-//    TTF_Font *font = TTF_OpenFont("gomarice.ttf", 20);
-//    std::string score_text = "score: " + std::to_string(_score);
-//    SDL_Color textColor = { 255, 255, 255, 0 };
-//    SDL_Surface* textSurface = TTF_RenderText_Solid(font, score_text.c_str(), textColor);
-//    SDL_Texture* text = SDL_CreateTextureFromSurface(_renderer, textSurface);
-//    int text_width = textSurface->w;
-//    int text_height = textSurface->h;
-//    SDL_FreeSurface(textSurface);
-//    SDL_Rect renderQuad = { 20, _height - 30, text_width, text_height };
-//    SDL_RenderCopy(_renderer, text, NULL, &renderQuad);
-//    SDL_RenderFillRect(_renderer, &_rect);
     SDL_RenderPresent(_renderer);
     SDL_Delay(100);
-//    }
     return _direction;
 }
 
@@ -313,16 +300,6 @@ int List::length() {
     return _length;
 }
 
-//void List::draw(Piece piece) {
-////    SDL_Rect rect;
-//    _rect.x = piece.xLoc;
-//    _rect.y = piece.yLoc;
-//    _rect.w = 16;
-//    _rect.h = 16;
-//    SDL_RenderCopy(_renderer, _background_texture, NULL, &_rect);
-////    SDL_RenderPresent(_renderer);
-//}
-
 void List::draw(Piece piece, SDL_Texture *texture) {
     _rect.x = piece.xLoc;
     _rect.y = piece.yLoc;
@@ -339,7 +316,6 @@ void List::drawFruit() {
     rect.h = 20;
     _food_rect = rect;
     SDL_RenderCopy(_renderer, _food_background_texture, NULL, &_food_rect);
-//    SDL_RenderPresent(_renderer);
 }
 
 void List::printSnakePieces(Food *food) {
