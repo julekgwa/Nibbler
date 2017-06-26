@@ -64,7 +64,7 @@ git clone https://github.com/julekgwa/Nibbler.git
 cd Nibbler && make
 ```
 ##### run Nibbler
-// window x height
+
 ```
 ./Nibbler 800 600
 ```
