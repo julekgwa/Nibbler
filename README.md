@@ -74,6 +74,7 @@ cd Nibbler && make
 
 * **[julekgwa](https://github.com/julekgwa)**
 * **[goisetsi](https://github.com/goisetsi)**
+* **[LordKhutz](https://github.com/lordkhutz)**
 
 ## License
 
@@ -81,4 +82,4 @@ MIT
 
 ## Acknowledgments
 
-* [LordKhutz](https://github.com/lordkhutz)
+* **[Musa](http:://xvideo.com)**
