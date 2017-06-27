@@ -82,4 +82,4 @@ MIT
 
 ## Acknowledgments
 
-* **[Musa](http:://xvideo.com)**
+* **[Musa](http://tshikotshi.com)**
